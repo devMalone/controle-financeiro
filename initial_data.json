@@ -1,0 +1,194 @@
+[
+  {
+    "id": "tx-001",
+    "date": "2024-10-08",
+    "type": "Entrada",
+    "category": "Salário",
+    "description": "R$2.500,00 - FGTS descontado",
+    "amount": 2296.0
+  },
+  {
+    "id": "tx-002",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Fatura Cartão",
+    "description": "",
+    "amount": 785.96
+  },
+  {
+    "id": "tx-003",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Pix Anderson",
+    "description": "Parcela 6/8",
+    "amount": 200.0
+  },
+  {
+    "id": "tx-004",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Internet",
+    "description": "R$109,90 - Desconto",
+    "amount": 99.9
+  },
+  {
+    "id": "tx-005",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Parcela CNH",
+    "description": "Última parcela da carta",
+    "amount": 388.0
+  },
+  {
+    "id": "tx-006",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Caixinha Faculdade",
+    "description": "",
+    "amount": 50.0
+  },
+  {
+    "id": "tx-007",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Juliana Bofi - Clínica Dentista",
+    "description": "Última parcela da clínica",
+    "amount": 320.0
+  },
+  {
+    "id": "tx-008",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Investimento CDB",
+    "description": "",
+    "amount": 330.0
+  },
+  {
+    "id": "tx-009",
+    "date": "2024-10-08",
+    "type": "Saída",
+    "category": "Mercado",
+    "description": "Horário de janta trabalho",
+    "amount": 5.5
+  },
+  {
+    "id": "tx-010",
+    "date": "2024-10-09",
+    "type": "Saída",
+    "category": "Cantina Microlins",
+    "description": "Horário de janta trabalho",
+    "amount": 2.5
+  },
+  {
+    "id": "tx-011",
+    "date": "2024-10-09",
+    "type": "Saída",
+    "category": "Cantina Microlins",
+    "description": "Horário de janta trabalho",
+    "amount": 2.0
+  },
+  {
+    "id": "tx-012",
+    "date": "2024-10-10",
+    "type": "Saída",
+    "category": "Mercado",
+    "description": "Café da manhã",
+    "amount": 28.28
+  },
+  {
+    "id": "tx-013",
+    "date": "2024-10-11",
+    "type": "Saída",
+    "category": "Cabelo",
+    "description": "Corte de cabelo",
+    "amount": 50.0
+  },
+  {
+    "id": "tx-014",
+    "date": "2024-10-11",
+    "type": "Entrada",
+    "category": "Resgate RDB",
+    "description": "Caixinha da faculdade",
+    "amount": 354.49
+  },
+  {
+    "id": "tx-015",
+    "date": "2024-10-11",
+    "type": "Saída",
+    "category": "Fatura Cartão",
+    "description": "Adiantei pagar essa fatura que ainda não fechou",
+    "amount": 371.76
+  },
+  {
+    "id": "tx-016",
+    "date": "2024-10-14",
+    "type": "Saída",
+    "category": "Outros",
+    "description": "Pix pra testar se funcionava",
+    "amount": 1.0
+  },
+  {
+    "id": "tx-017",
+    "date": "2024-10-18",
+    "type": "Saída",
+    "category": "Mercado",
+    "description": "São Paulo - Algo para comer",
+    "amount": 11.0
+  },
+  {
+    "id": "tx-018",
+    "date": "2024-10-22",
+    "type": "Saída",
+    "category": "Cantina Microlins",
+    "description": "",
+    "amount": 2.5
+  },
+  {
+    "id": "tx-019",
+    "date": "2024-11-08",
+    "type": "Entrada",
+    "category": "Salário",
+    "description": "",
+    "amount": 2296.0
+  },
+  {
+    "id": "tx-020",
+    "date": "2024-11-08",
+    "type": "Saída",
+    "category": "Outros",
+    "description": "Pix do Anderson. 07º parcela",
+    "amount": 200.0
+  },
+  {
+    "id": "tx-021",
+    "date": "2024-11-08",
+    "type": "Saída",
+    "category": "Fatura Cartão",
+    "description": "Fatura fechada do mês de outubro",
+    "amount": 1975.23
+  },
+  {
+    "id": "tx-022",
+    "date": "2024-11-08",
+    "type": "Saída",
+    "category": "Internet",
+    "description": "",
+    "amount": 99.9
+  },
+  {
+    "id": "tx-023",
+    "date": "2024-11-05",
+    "type": "Entrada",
+    "category": "Serviço Extra",
+    "description": "Desbloqueio de celular",
+    "amount": 50.0
+  },
+  {
+    "id": "tx-024",
+    "date": "2024-11-09",
+    "type": "Saída",
+    "category": "Cantina Microlins",
+    "description": "",
+    "amount": 2.15
+  }
+]
