@@ -968,55 +968,111 @@
       flex-direction: column;
       gap: 10px;
     }
+    .budget-hero-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    @media (min-width: 600px) {
+      .budget-hero-actions {
+        width: auto;
+        margin-top: 0;
+      }
+    }
+    .budget-hero-btn {
+      flex: 1;
+      height: 38px;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    #tab-orcamento {
+      padding-bottom: calc(115px + env(safe-area-inset-bottom, 20px));
+    }
     .budget-item-card {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
-      padding: 12px 14px;
+      padding: 14px 16px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      flex-direction: column;
+      gap: 10px;
       transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
     .budget-item-card.is-paid {
       border-color: rgba(16, 185, 129, 0.35);
       background: rgba(16, 185, 129, 0.05);
     }
-    .budget-item-info {
+    .budget-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .budget-item-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-main);
+      line-height: 1.35;
       flex: 1;
       min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      word-break: normal;
+      overflow-wrap: break-word;
     }
-    .budget-item-title-row {
+    .budget-item-amount {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: -0.2px;
+    }
+    .budget-item-amount.income {
+      color: var(--color-income);
+    }
+    .budget-item-amount.expense {
+      color: var(--color-expense);
+    }
+    .budget-card-tags {
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      font-size: 0.78rem;
     }
-    .budget-item-title {
+    .budget-tag-recurring {
+      font-size: 0.72rem;
+      color: var(--color-balance);
       font-weight: 700;
-      font-size: 0.92rem;
-      color: var(--text-main);
-      word-break: break-word;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    .budget-item-meta {
+    .budget-tag-due {
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .budget-card-footer {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 2px;
       flex-wrap: wrap;
     }
     .budget-status-btn {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 5px 11px;
+      gap: 6px;
+      padding: 6px 13px;
       border-radius: var(--radius-full);
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
       border: 1px solid transparent;
@@ -1024,39 +1080,54 @@
       touch-action: manipulation;
     }
     .budget-status-btn.pending {
-      background: rgba(244, 63, 94, 0.1);
+      background: rgba(244, 63, 94, 0.12);
       color: var(--color-expense);
-      border-color: rgba(244, 63, 94, 0.3);
+      border-color: rgba(244, 63, 94, 0.35);
     }
     .budget-status-btn.pending:hover {
-      background: rgba(244, 63, 94, 0.2);
+      background: rgba(244, 63, 94, 0.22);
     }
     .budget-status-btn.paid {
-      background: rgba(16, 185, 129, 0.14);
+      background: rgba(16, 185, 129, 0.15);
       color: var(--color-income);
-      border-color: rgba(16, 185, 129, 0.35);
+      border-color: rgba(16, 185, 129, 0.4);
     }
     .budget-status-btn.paid:hover {
-      background: rgba(16, 185, 129, 0.24);
+      background: rgba(16, 185, 129, 0.25);
     }
     .budget-item-actions {
       display: flex;
       align-items: center;
       gap: 6px;
-      flex-shrink: 0;
     }
     .budget-action-btn {
-      width: 34px;
-      height: 34px;
-      display: flex;
+      min-height: 36px;
+      height: 36px;
+      padding: 0 10px;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 5px;
       border-radius: 8px;
-      background: transparent;
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
+    }
+    .budget-btn-label {
+      display: inline;
+    }
+    @media (max-width: 380px) {
+      .budget-btn-label {
+        display: none;
+      }
+      .budget-action-btn {
+        width: 36px;
+        padding: 0;
+      }
     }
     .budget-action-btn:hover {
       background: var(--bg-surface-hover);
@@ -1069,12 +1140,12 @@
       border-color: rgba(244, 63, 94, 0.35);
     }
     .budget-action-btn.quick-post {
-      background: rgba(56, 189, 248, 0.1);
+      background: rgba(56, 189, 248, 0.12);
       color: var(--color-balance);
-      border-color: rgba(56, 189, 248, 0.3);
+      border-color: rgba(56, 189, 248, 0.35);
     }
     .budget-action-btn.quick-post:hover {
-      background: rgba(56, 189, 248, 0.22);
+      background: rgba(56, 189, 248, 0.25);
       border-color: var(--color-balance);
     }
   </style>
@@ -1293,11 +1364,11 @@
               Controle de contas fixas e previsão de gastos para <strong id="budgetMonthLabel" style="color: var(--text-main);">o mês</strong>
             </div>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn-action-small" style="width: auto; padding: 6px 12px; font-size: 0.8rem; gap: 6px; color: var(--color-expense); border: 1px solid rgba(244,63,94,0.35); background: var(--color-expense-bg);" onclick="openBudgetModal('Saída')">
+          <div class="budget-hero-actions">
+            <button type="button" class="btn-action-small budget-hero-btn" style="color: var(--color-expense); border-color: rgba(244,63,94,0.35); background: var(--color-expense-bg);" onclick="openBudgetModal('Saída')">
               <i data-lucide="plus-circle"></i> Nova Despesa Fixa
             </button>
-            <button type="button" class="btn-action-small" style="width: auto; padding: 6px 12px; font-size: 0.8rem; gap: 6px; color: var(--color-income); border: 1px solid rgba(16,185,129,0.35); background: var(--color-income-bg);" onclick="openBudgetModal('Entrada')">
+            <button type="button" class="btn-action-small budget-hero-btn" style="color: var(--color-income); border-color: rgba(16,185,129,0.35); background: var(--color-income-bg);" onclick="openBudgetModal('Entrada')">
               <i data-lucide="plus-circle"></i> Nova Renda Fixa
             </button>
           </div>
@@ -3944,31 +4015,32 @@
             const isReceived = !!statusMap[item.id]?.paid;
             return `
               <div class="budget-item-card ${isReceived ? 'is-paid' : ''}">
-                <div class="budget-item-info">
-                  <div class="budget-item-title-row">
-                    <span class="budget-item-title">${escapeHTML(item.name)}</span>
-                    <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Salário')}</span>
-                    ${item.recurring ? '<span style="font-size: 0.7rem; color: var(--color-balance); font-weight: 700;">🔄 Mensal</span>' : ''}
-                  </div>
-                  <div class="budget-item-meta">
-                    <span style="font-family: var(--font-mono); font-weight: 700; color: var(--color-income); font-size: 0.92rem;">+ ${formatBRL(item.amount)}</span>
-                    ${item.dueDay ? `<span>• Previsão dia ${item.dueDay}</span>` : ''}
-                  </div>
+                <div class="budget-card-header">
+                  <div class="budget-item-title">${escapeHTML(item.name)}</div>
+                  <div class="budget-item-amount income">+ ${formatBRL(item.amount)}</div>
                 </div>
-                <div class="budget-item-actions">
+                <div class="budget-card-tags">
+                  <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Salário')}</span>
+                  ${item.recurring ? '<span class="budget-tag-recurring">🔄 Mensal</span>' : ''}
+                  ${item.dueDay ? `<span class="budget-tag-due"><i data-lucide="calendar" style="width: 12px; height: 12px;"></i> Previsão dia ${item.dueDay}</span>` : ''}
+                </div>
+                <div class="budget-card-footer">
                   <button type="button" class="budget-status-btn ${isReceived ? 'paid' : 'pending'}" onclick="toggleBudgetStatus('${item.id}')" title="Alternar status de recebimento">
-                    <i data-lucide="${isReceived ? 'check-circle' : 'clock'}" style="width: 13px; height: 13px;"></i>
+                    <i data-lucide="${isReceived ? 'check-circle-2' : 'clock'}" style="width: 14px; height: 14px;"></i>
                     <span>${isReceived ? 'Recebido' : 'Pendente'}</span>
                   </button>
-                  <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar automaticamente no Extrato deste mês">
-                    <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
-                  </button>
-                  <button type="button" class="budget-action-btn" onclick="openBudgetModal('Entrada', '${item.id}')" title="Editar este item">
-                    <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
-                  </button>
-                  <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
-                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
-                  </button>
+                  <div class="budget-item-actions">
+                    <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar no Extrato deste mês">
+                      <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
+                      <span class="budget-btn-label">Lançar</span>
+                    </button>
+                    <button type="button" class="budget-action-btn" onclick="openBudgetModal('Entrada', '${item.id}')" title="Editar este item">
+                      <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
+                      <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             `;
@@ -3994,31 +4066,32 @@
             const isPaid = !!statusMap[item.id]?.paid;
             return `
               <div class="budget-item-card ${isPaid ? 'is-paid' : ''}">
-                <div class="budget-item-info">
-                  <div class="budget-item-title-row">
-                    <span class="budget-item-title">${escapeHTML(item.name)}</span>
-                    <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Outros')}</span>
-                    ${item.recurring ? '<span style="font-size: 0.7rem; color: var(--color-balance); font-weight: 700;">🔄 Mensal</span>' : ''}
-                  </div>
-                  <div class="budget-item-meta">
-                    <span style="font-family: var(--font-mono); font-weight: 700; color: var(--color-expense); font-size: 0.92rem;">- ${formatBRL(item.amount)}</span>
-                    ${item.dueDay ? `<span>• Vence dia ${item.dueDay}</span>` : ''}
-                  </div>
+                <div class="budget-card-header">
+                  <div class="budget-item-title">${escapeHTML(item.name)}</div>
+                  <div class="budget-item-amount expense">- ${formatBRL(item.amount)}</div>
                 </div>
-                <div class="budget-item-actions">
+                <div class="budget-card-tags">
+                  <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Outros')}</span>
+                  ${item.recurring ? '<span class="budget-tag-recurring">🔄 Mensal</span>' : ''}
+                  ${item.dueDay ? `<span class="budget-tag-due"><i data-lucide="calendar" style="width: 12px; height: 12px;"></i> Vence dia ${item.dueDay}</span>` : ''}
+                </div>
+                <div class="budget-card-footer">
                   <button type="button" class="budget-status-btn ${isPaid ? 'paid' : 'pending'}" onclick="toggleBudgetStatus('${item.id}')" title="Alternar status de pagamento">
-                    <i data-lucide="${isPaid ? 'check-circle' : 'clock'}" style="width: 13px; height: 13px;"></i>
+                    <i data-lucide="${isPaid ? 'check-circle-2' : 'clock'}" style="width: 14px; height: 14px;"></i>
                     <span>${isPaid ? 'Pago' : 'Pendente'}</span>
                   </button>
-                  <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar automaticamente no Extrato deste mês">
-                    <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
-                  </button>
-                  <button type="button" class="budget-action-btn" onclick="openBudgetModal('Saída', '${item.id}')" title="Editar este item">
-                    <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
-                  </button>
-                  <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
-                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
-                  </button>
+                  <div class="budget-item-actions">
+                    <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar no Extrato deste mês">
+                      <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
+                      <span class="budget-btn-label">Lançar</span>
+                    </button>
+                    <button type="button" class="budget-action-btn" onclick="openBudgetModal('Saída', '${item.id}')" title="Editar este item">
+                      <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                    </button>
+                    <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
+                      <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             `;
