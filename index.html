@@ -89,9 +89,35 @@
     .month-navigator { display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 8px 12px; margin-bottom: 20px; }
     .month-nav-btn { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
     .month-nav-btn:hover { background: var(--bg-surface-hover); }
-    .month-nav-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;  }
-    .btn-today { font-size: 0.8rem; font-weight: 600; padding: 6px 12px; background: transparent; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-muted); cursor: pointer; }
+    .btn-today { 
+      font-size: 0.8rem; 
+      font-weight: 700; 
+      padding: 6px 14px; 
+      background: var(--bg-surface-elevated); 
+      border: 1px solid var(--border-subtle); 
+      border-radius: var(--radius-full); 
+      color: var(--text-muted); 
+      cursor: pointer; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
     .btn-today:hover { color: var(--text-main); border-color: var(--color-income); }
+    .btn-today.active { 
+      background: var(--color-income-bg); 
+      color: var(--color-income); 
+      border-color: var(--color-income); 
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25); 
+    }
+    .btn-today.active::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-income);
+      box-shadow: 0 0 6px var(--color-income);
+    }
     .kpi-grid { 
       display: grid; 
       grid-template-columns: 1fr 1fr; 
@@ -509,7 +535,7 @@
       </button>
       <div class="month-nav-title" id="monthDisplay">Carregando...</div>
       <div style="display: flex; gap: 8px; align-items: center;">
-        <button class="btn-today" onclick="goToToday()">Hoje</button>
+        <button class="btn-today" id="btnToday" onclick="goToToday()">Hoje</button>
         <button class="month-nav-btn" onclick="changeMonth(1)" title="Próximo Mês">
           <i data-lucide="chevron-right"></i>
         </button>
@@ -1061,6 +1087,13 @@
 
     function renderUI() {
       document.getElementById('monthDisplay').textContent = `${MONTH_NAMES[state.currentMonth]} de ${state.currentYear}`;
+
+      const now = new Date();
+      const isTodayMonth = state.currentMonth === now.getMonth() && state.currentYear === now.getFullYear();
+      const btnToday = document.getElementById('btnToday');
+      if (btnToday) {
+        btnToday.classList.toggle('active', isTodayMonth);
+      }
 
       const monthPrefix = `${state.currentYear}-${String(state.currentMonth + 1).padStart(2, '0')}`;
       const monthTxs = state.transactions.filter(t => t.date.startsWith(monthPrefix));
