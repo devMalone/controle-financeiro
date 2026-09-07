@@ -429,9 +429,44 @@
     .daily-table tr:hover td { background: var(--bg-surface-hover); }
     .fab-btn { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom, 16px)); right: 24px; height: 56px; padding: 0 24px; border-radius: var(--radius-full); background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; font-weight: 700; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.45); cursor: pointer; z-index: 90; }
     .fab-btn:active { transform: scale(0.95); }
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: flex-end; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    body.modal-open {
+      overflow: hidden !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      touch-action: none !important;
+    }
+    .modal-backdrop { 
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0, 0, 0, 0.7); 
+      backdrop-filter: blur(5px); 
+      z-index: 100; 
+      display: flex; 
+      align-items: flex-end; 
+      justify-content: center; 
+      opacity: 0; 
+      pointer-events: none; 
+      transition: opacity 0.25s ease; 
+      overscroll-behavior: contain;
+      touch-action: none;
+    }
     .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .modal-box { width: 100%; max-width: 520px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px 24px 0 0; padding: 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom, 16px)); max-height: 90dvh; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .modal-box { 
+      width: 100%; 
+      max-width: 520px; 
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-subtle); 
+      border-radius: 24px 24px 0 0; 
+      padding: 24px; 
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 16px)); 
+      max-height: 90dvh; 
+      overflow-y: auto; 
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      transform: translateY(100%); 
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
     @media (min-width: 768px) { .modal-backdrop { align-items: center; } .modal-box { border-radius: var(--radius-lg); transform: scale(0.95); } .modal-backdrop.open .modal-box { transform: scale(1); } }
     .modal-backdrop.open .modal-box { transform: translateY(0); }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
@@ -625,6 +660,34 @@
       border-color: var(--color-income); 
       background: var(--bg-surface-hover);
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+    }
+    .date-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .date-picker-trigger {
+      position: absolute;
+      right: 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--color-income);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .date-picker-trigger:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-active);
+    }
+    .date-picker-trigger:active {
+      transform: scale(0.95);
     }
     .category-badges-scroll { 
       display: flex; 
@@ -1003,9 +1066,15 @@
         <div class="form-group">
           <label class="form-label" for="txDate">
             <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
-            <span>Data da Movimentação</span>
+            <span>Data da Movimentação (Dia/Mês/Ano)</span>
           </label>
-          <input type="date" class="form-input" id="txDate" required>
+          <div class="date-input-wrapper">
+            <input type="text" class="form-input" id="txDate" placeholder="DD/MM/AAAA" inputmode="numeric" maxlength="10" required autocomplete="off" oninput="formatDateInput(this)" onblur="validateDateInput(this)" style="padding-right: 52px; font-weight: 600; letter-spacing: 0.5px;">
+            <button type="button" class="date-picker-trigger" onclick="triggerNativeDatePicker()" title="Abrir calendário para escolher data">
+              <i data-lucide="calendar"></i>
+            </button>
+            <input type="date" id="txDateNative" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; left: 0; bottom: 0;" tabindex="-1" onchange="onNativeDateChosen(this.value)">
+          </div>
         </div>
 
         <div class="form-group">
@@ -1328,6 +1397,7 @@
           else topModal.classList.remove('open');
 
           activeModalStack = activeModalStack.filter(m => m !== id);
+          updateBodyScrollLock();
           setTimeout(() => { isNavigatingHistory = false; }, 80);
           return;
         }
@@ -1352,8 +1422,14 @@
           else if (id === 'importModal') closeImportModal();
           else if (id === 'backupModal') closeBackupModal();
           else if (id === 'syncModal') closeSyncModal();
+          updateBodyScrollLock();
         }
       });
+    }
+
+    function updateBodyScrollLock() {
+      const anyOpen = document.querySelectorAll('.modal-backdrop.open').length > 0;
+      document.body.classList.toggle('modal-open', anyOpen);
     }
 
     function pushModalState(modalId) {
@@ -1361,6 +1437,7 @@
         activeModalStack.push(modalId);
       }
       history.pushState({ modalId: modalId }, '');
+      updateBodyScrollLock();
     }
 
     function popModalState(modalId, fromPopState = false) {
@@ -1370,6 +1447,7 @@
         history.back();
         setTimeout(() => { isNavigatingHistory = false; }, 80);
       }
+      updateBodyScrollLock();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1380,6 +1458,15 @@
       updateTabsScrollIndicator();
       window.addEventListener('resize', updateTabsScrollIndicator);
       lucide.createIcons();
+
+      // Impede arrasto/scroll chaining de fundo no mobile ao tocar nas bordas/backdrop
+      document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+        backdrop.addEventListener('touchmove', (e) => {
+          if (e.target === backdrop) {
+            e.preventDefault();
+          }
+        }, { passive: false });
+      });
 
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').then((reg) => {
@@ -1892,7 +1979,7 @@
       
       const now = new Date();
       const defaultDate = `${state.currentYear}-${String(state.currentMonth + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-      document.getElementById('txDate').value = defaultDate;
+      setTxDateValue(defaultDate);
       document.getElementById('txCategoryCustom').value = '';
       document.getElementById('txDesc').value = '';
       document.getElementById('txBank').value = '';
@@ -2140,11 +2227,147 @@
       el.value = val.replace('.', ',');
     }
 
+    function formatDateInput(el) {
+      let v = el.value.replace(/\D/g, '');
+      if (v.length > 8) v = v.substring(0, 8);
+
+      // Se colar no formato YYYYMMDD (começa com 19xx ou 20xx e tem 8 dígitos)
+      if (v.length === 8 && (v.startsWith('20') || v.startsWith('19')) && parseInt(v.substring(4, 6), 10) <= 12) {
+        const y = v.substring(0, 4);
+        const m = v.substring(4, 6);
+        const d = v.substring(6, 8);
+        v = `${d}${m}${y}`;
+      }
+
+      if (v.length > 4) {
+        el.value = `${v.substring(0, 2)}/${v.substring(2, 4)}/${v.substring(4)}`;
+      } else if (v.length > 2) {
+        el.value = `${v.substring(0, 2)}/${v.substring(2)}`;
+      } else {
+        el.value = v;
+      }
+    }
+
+    function validateDateInput(el) {
+      let val = el.value.trim();
+      if (!val) return;
+
+      const slashParts = val.split('/');
+      if (slashParts.length === 3) {
+        let d = parseInt(slashParts[0], 10);
+        let m = parseInt(slashParts[1], 10);
+        let y = parseInt(slashParts[2], 10);
+        if (!isNaN(d) && !isNaN(m) && !isNaN(y)) {
+          if (y < 100) y += 2000;
+          if (m < 1) m = 1;
+          if (m > 12) m = 12;
+          const maxDays = new Date(y, m, 0).getDate();
+          if (d < 1) d = 1;
+          if (d > maxDays) d = maxDays;
+          const formatted = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+          el.value = formatted;
+          const nativeEl = document.getElementById('txDateNative');
+          if (nativeEl) {
+            nativeEl.value = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+          }
+          return;
+        }
+      }
+
+      const match = val.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (match) {
+        let d = parseInt(match[1], 10);
+        let m = parseInt(match[2], 10);
+        const y = parseInt(match[3], 10);
+        if (m < 1) m = 1;
+        if (m > 12) m = 12;
+        const maxDays = new Date(y, m, 0).getDate();
+        if (d < 1) d = 1;
+        if (d > maxDays) d = maxDays;
+        const formatted = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`;
+        el.value = formatted;
+        const nativeEl = document.getElementById('txDateNative');
+        if (nativeEl) {
+          nativeEl.value = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        }
+      }
+    }
+
+    function triggerNativeDatePicker() {
+      const nativeEl = document.getElementById('txDateNative');
+      if (!nativeEl) return;
+      const val = document.getElementById('txDate').value.trim();
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(val)) {
+        const [d, m, y] = val.split('/');
+        nativeEl.value = `${y}-${m}-${d}`;
+      }
+      if (typeof nativeEl.showPicker === 'function') {
+        try {
+          nativeEl.showPicker();
+          return;
+        } catch(err) {}
+      }
+      nativeEl.focus();
+      nativeEl.click();
+    }
+
+    function onNativeDateChosen(isoDate) {
+      if (!isoDate) return;
+      const parts = isoDate.split('-');
+      if (parts.length === 3) {
+        const [y, m, d] = parts;
+        document.getElementById('txDate').value = `${d}/${m}/${y}`;
+      }
+    }
+
+    function setTxDateValue(dateVal) {
+      const txDate = document.getElementById('txDate');
+      const nativeEl = document.getElementById('txDateNative');
+      if (!txDate) return;
+
+      if (!dateVal) {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, '0');
+        const m = String(now.getMonth() + 1).padStart(2, '0');
+        const y = now.getFullYear();
+        txDate.value = `${d}/${m}/${y}`;
+        if (nativeEl) nativeEl.value = `${y}-${m}-${d}`;
+        return;
+      }
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateVal)) {
+        const [y, m, d] = dateVal.split('-');
+        txDate.value = `${d}/${m}/${y}`;
+        if (nativeEl) nativeEl.value = dateVal;
+      } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateVal)) {
+        txDate.value = dateVal;
+        if (nativeEl) {
+          const [d, m, y] = dateVal.split('/');
+          nativeEl.value = `${y}-${m}-${d}`;
+        }
+      } else {
+        txDate.value = dateVal;
+      }
+    }
+
     async function saveTransaction(e) {
       e.preventDefault();
       const id = document.getElementById('txId').value || `tx-${Date.now()}`;
       const amountVal = parseBRL(document.getElementById('txAmount').value);
-      const dateVal = document.getElementById('txDate').value;
+      
+      const rawDate = document.getElementById('txDate').value.trim();
+      let dateVal = '';
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(rawDate)) {
+        const [d, m, y] = rawDate.split('/');
+        dateVal = `${y}-${m}-${d}`;
+      } else if (/^\d{4}-\d{2}-\d{2}$/.test(rawDate)) {
+        dateVal = rawDate;
+      } else {
+        showToast('Informe uma data válida no formato DD/MM/AAAA!', 'error');
+        document.getElementById('txDate').focus();
+        return;
+      }
+
       const customCat = document.getElementById('txCategoryCustom').value.trim();
       const categoryVal = customCat || state.selectedCategory || 'Outros';
       const descVal = document.getElementById('txDesc').value.trim();
@@ -2193,7 +2416,7 @@
       document.getElementById('modalTxTitle').textContent = 'Editar Lançamento';
       document.getElementById('txId').value = tx.id;
       document.getElementById('txAmount').value = tx.amount.toFixed(2).replace('.', ',');
-      document.getElementById('txDate').value = tx.date;
+      setTxDateValue(tx.date);
       document.getElementById('txDesc').value = tx.description || '';
       document.getElementById('txBank').value = tx.bank || '';
 
