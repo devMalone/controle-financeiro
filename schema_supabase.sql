@@ -1,4 +1,4 @@
-﻿-- ==============================================================================
+-- ==============================================================================
 -- Schema Supabase — Controle Financeiro Antigravity (Sincronização em Tempo Real)
 -- ==============================================================================
 -- Instruções:
@@ -17,8 +17,14 @@ CREATE TABLE IF NOT EXISTS public.transacoes (
     category TEXT NOT NULL,
     description TEXT DEFAULT '',
     amount NUMERIC(12, 2) NOT NULL,
+    bank TEXT DEFAULT '',
+    fitid TEXT DEFAULT '',
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
 );
+
+-- Atualização automática de colunas para quem já tinha criado a tabela antes:
+ALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS bank TEXT DEFAULT '';
+ALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS fitid TEXT DEFAULT '';
 
 -- 2. Índices de alta performance para busca e ordenação
 CREATE INDEX IF NOT EXISTS idx_transacoes_date ON public.transacoes(date DESC);

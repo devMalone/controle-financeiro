@@ -1968,13 +1968,7 @@
 
       saveLocal();
 
-      if (state.supabase) {
-        try {
-          await state.supabase.from('transacoes').upsert(txObj);
-        } catch(err) {
-          console.warn('[Cloud] Erro ao sincronizar transação:', err);
-        }
-      }
+      await syncTransactionToCloud(txObj);
 
       closeTxModal();
       showToast('Lançamento salvo com sucesso!', 'success');
@@ -2129,15 +2123,128 @@
         .subscribe();
     }
 
+    async function syncTransactionToCloud(txObj) {
+      if (!state.supabase) return;
+
+      const payload = {
+        id: txObj.id,
+        date: txObj.date,
+        type: txObj.type,
+        category: txObj.category,
+        description: txObj.description || '',
+        amount: txObj.amount,
+        bank: txObj.bank || '',
+        fitid: txObj.fitid || ''
+      };
+
+      const res = await state.supabase.from('transacoes').upsert(payload);
+      if (res.error) {
+        console.warn('[Cloud] Upsert falhou com colunas extras (bank/fitid). Tentando modo compatibilidade:', res.error);
+        const classicPayload = {
+          id: txObj.id,
+          date: txObj.date,
+          type: txObj.type,
+          category: txObj.category,
+          description: txObj.description || '',
+          amount: txObj.amount
+        };
+        const retry = await state.supabase.from('transacoes').upsert(classicPayload);
+        if (retry.error) {
+          console.error('[Cloud] Erro persistente ao sincronizar transação na nuvem:', retry.error);
+        } else {
+          console.log('[Cloud] Transação sincronizada com sucesso no modo compatibilidade!');
+        }
+      }
+    }
+
+    async function syncBatchToCloud(txList) {
+      if (!state.supabase || !txList || txList.length === 0) return;
+
+      const payload = txList.map(t => ({
+        id: t.id,
+        date: t.date,
+        type: t.type,
+        category: t.category,
+        description: t.description || '',
+        amount: t.amount,
+        bank: t.bank || '',
+        fitid: t.fitid || ''
+      }));
+
+      const res = await state.supabase.from('transacoes').upsert(payload);
+      if (res.error) {
+        console.warn('[Cloud] Upsert em lote falhou com colunas novas. Tentando esquema clássico:', res.error);
+        const classicPayload = txList.map(t => ({
+          id: t.id,
+          date: t.date,
+          type: t.type,
+          category: t.category,
+          description: t.description || '',
+          amount: t.amount
+        }));
+        const retry = await state.supabase.from('transacoes').upsert(classicPayload);
+        if (retry.error) {
+          console.error('[Cloud] Erro persistente ao sincronizar lote:', retry.error);
+        } else {
+          console.log('[Cloud] Lote sincronizado com sucesso no modo compatibilidade!');
+        }
+      }
+    }
+
     async function pullFromCloud() {
       if (!state.supabase) return;
       try {
         const { data, error } = await state.supabase.from('transacoes').select('*').order('date', { ascending: false });
-        if (error) throw error;
-        if (Array.isArray(data)) {
-          state.transactions = data;
-          saveLocal();
-          renderUI();
+        if (error) {
+          console.warn('[Cloud] Falha no select:', error);
+          return;
+        }
+        if (!Array.isArray(data)) return;
+
+        // Recupera o que está atualmente no armazenamento local
+        const localTxs = JSON.parse(localStorage.getItem('financas_transactions') || '[]');
+        
+        // Se a nuvem estiver vazia mas houver dados locais, nós NÃO apagamos os dados locais!
+        // Pelo contrário: enviamos os dados locais para salvar na nuvem!
+        if (data.length === 0 && localTxs.length > 0) {
+          console.log('[Cloud] Nuvem vazia. Povoando nuvem com dados locais salvos...');
+          await syncBatchToCloud(localTxs);
+          return;
+        }
+
+        const cloudMap = new Map();
+        data.forEach(item => cloudMap.set(item.id, item));
+
+        const merged = [];
+        const missingInCloud = [];
+
+        // 1. Incorpora os dados da nuvem, preservando atributos locais se a nuvem não tiver (como bank/fitid)
+        data.forEach(cloudItem => {
+          const localMatch = localTxs.find(l => l.id === cloudItem.id);
+          merged.push({
+            ...cloudItem,
+            bank: cloudItem.bank || (localMatch ? localMatch.bank : '') || '',
+            fitid: cloudItem.fitid || (localMatch ? localMatch.fitid : '') || ''
+          });
+        });
+
+        // 2. Se houver itens locais que ainda não estão na nuvem, mantém eles!
+        localTxs.forEach(localItem => {
+          if (!cloudMap.has(localItem.id)) {
+            merged.push(localItem);
+            missingInCloud.push(localItem);
+          }
+        });
+
+        merged.sort((a, b) => b.date.localeCompare(a.date));
+        state.transactions = merged;
+        saveLocal();
+        renderUI();
+
+        // Envia os itens locais faltantes para a nuvem em segundo plano
+        if (missingInCloud.length > 0) {
+          console.log(`[Cloud] Sincronizando ${missingInCloud.length} itens locais pendentes com a nuvem...`);
+          await syncBatchToCloud(missingInCloud);
         }
       } catch(err) {
         console.warn('[Cloud] Falha no pull:', err);
@@ -2151,8 +2258,7 @@
       }
       try {
         showToast('Enviando dados para a nuvem...', 'info');
-        const { error } = await state.supabase.from('transacoes').upsert(state.transactions);
-        if (error) throw error;
+        await syncBatchToCloud(state.transactions);
         showToast(`${state.transactions.length} registros sincronizados na nuvem!`, 'success');
       } catch(err) {
         console.error(err);
@@ -2713,12 +2819,8 @@
       renderUI();
 
       if (state.supabase) {
-        try {
-          showToast(`Sincronizando ${toAdd.length} lançamentos na nuvem...`, 'info');
-          await state.supabase.from('transacoes').upsert(toAdd);
-        } catch(err) {
-          console.warn('[Cloud] Erro ao sincronizar importação na nuvem:', err);
-        }
+        showToast(`Sincronizando ${toAdd.length} lançamentos na nuvem...`, 'info');
+        await syncBatchToCloud(toAdd);
       }
 
       closeImportModal();
