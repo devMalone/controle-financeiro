@@ -72,18 +72,107 @@
     * { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
     body { font-family: var(--font-family); background-color: var(--bg-primary); color: var(--text-main); min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; overflow-x: hidden; padding-bottom: calc(105px + env(safe-area-inset-bottom, 20px)); }
     .app-container { width: 100%; max-width: 1024px; margin: 0 auto; padding: clamp(12px, 3vw, 24px); }
-    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: max(12px, env(safe-area-inset-top)) 0 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 20px; }
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .brand-icon { width: 44px; height: 44px; min-width: 44px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #ffffff; font-weight: 800; font-size: 22px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); }
-    .brand-info { display: flex; flex-direction: column; gap: 6px; }
-    .brand-title { font-size: 1.18rem; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; line-height: 1.1; }
-    .brand-title sup { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; color: var(--color-income); text-transform: uppercase; background: var(--color-income-bg); border: 1px solid rgba(16, 185, 129, 0.25); padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
-    .sync-badge { display: inline-flex; align-items: center; gap: 7px; font-size: 0.74rem; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); cursor: pointer; transition: all 0.2s ease; width: fit-content; }
+    .top-bar { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      gap: 10px;
+      padding: max(12px, env(safe-area-inset-top)) 0 16px; 
+      border-bottom: 1px solid var(--border-subtle); 
+      margin-bottom: 20px; 
+      min-width: 0;
+    }
+    .brand { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      min-width: 0;
+      flex: 1;
+    }
+    .brand-icon { 
+      width: 38px; 
+      height: 38px; 
+      min-width: 38px; 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      border-radius: var(--radius-sm); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: #ffffff; 
+      font-weight: 800; 
+      font-size: 20px; 
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); 
+      flex-shrink: 0;
+    }
+    .brand-info { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 4px; 
+      min-width: 0;
+    }
+    .brand-title { 
+      font-size: clamp(0.95rem, 3.8vw, 1.15rem); 
+      font-weight: 800; 
+      letter-spacing: -0.02em; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      line-height: 1.1; 
+      white-space: nowrap;
+    }
+    .brand-title sup { 
+      font-size: 0.6rem; 
+      font-weight: 700; 
+      letter-spacing: 0.1em; 
+      color: var(--color-income); 
+      text-transform: uppercase; 
+      background: var(--color-income-bg); 
+      border: 1px solid rgba(16, 185, 129, 0.25); 
+      padding: 1px 5px; 
+      border-radius: 4px; 
+      vertical-align: middle; 
+    }
+    .sync-badge { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 5px; 
+      font-size: 0.7rem; 
+      font-weight: 600; 
+      padding: 3px 8px; 
+      border-radius: var(--radius-full); 
+      background: var(--bg-surface-elevated); 
+      border: 1px solid var(--border-subtle); 
+      cursor: pointer; 
+      transition: all 0.2s ease; 
+      width: fit-content; 
+      white-space: nowrap;
+    }
     .sync-badge:hover { background: var(--bg-surface-hover); }
-    .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; flex-shrink: 0; }
     .sync-badge.online .sync-dot { background: var(--color-income); box-shadow: 0 0 8px var(--color-income); }
-    .top-actions { display: flex; align-items: center; gap: 8px; }
-    .icon-btn { width: 42px; height: 42px; min-width: 42px; min-height: 42px; border-radius: var(--radius-sm); background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
+    .top-actions { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      flex-shrink: 0; 
+    }
+    .icon-btn { 
+      width: 38px; 
+      height: 38px; 
+      min-width: 38px; 
+      min-height: 38px; 
+      border-radius: var(--radius-sm); 
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-subtle); 
+      color: var(--text-main); 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      cursor: pointer; 
+      transition: all 0.15s ease; 
+      flex-shrink: 0;
+    }
+    .icon-btn i { width: 18px; height: 18px; }
     .icon-btn:hover { background: var(--bg-surface-hover); border-color: var(--border-active); }
     .icon-btn:active { transform: scale(0.95); }
     .month-navigator { display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 8px 12px; margin-bottom: 20px; }
@@ -257,6 +346,15 @@
       font-weight: 700; 
       font-size: 0.94rem; 
       color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .tx-title span.title-text {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -498,6 +596,87 @@
     .donut-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 320px; }
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); }
     .legend-color { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* Bank Badges */
+    .bank-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      line-height: 1.2;
+      flex-shrink: 0;
+      letter-spacing: 0.02em;
+    }
+    .bank-nubank { background: rgba(130, 10, 209, 0.18); color: #c084fc; border: 1px solid rgba(130, 10, 209, 0.4); }
+    .bank-mercadopago { background: rgba(0, 158, 227, 0.18); color: #38bdf8; border: 1px solid rgba(0, 158, 227, 0.4); }
+    .bank-inter { background: rgba(255, 122, 0, 0.18); color: #fb923c; border: 1px solid rgba(255, 122, 0, 0.4); }
+    .bank-itau { background: rgba(236, 112, 0, 0.18); color: #fb923c; border: 1px solid rgba(236, 112, 0, 0.4); }
+    .bank-bradesco { background: rgba(204, 9, 47, 0.18); color: #f87171; border: 1px solid rgba(204, 9, 47, 0.4); }
+    .bank-santander { background: rgba(236, 0, 0, 0.18); color: #f87171; border: 1px solid rgba(236, 0, 0, 0.4); }
+    .bank-c6 { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.2); }
+    .bank-caixa { background: rgba(0, 92, 169, 0.18); color: #60a5fa; border: 1px solid rgba(0, 92, 169, 0.4); }
+    .bank-bb { background: rgba(252, 238, 33, 0.15); color: #fde047; border: 1px solid rgba(252, 238, 33, 0.35); }
+    .bank-outro { background: rgba(100, 116, 139, 0.18); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+
+    /* File Drop Zone & Import UI */
+    .file-drop-zone {
+      border: 2px dashed rgba(56, 189, 248, 0.35);
+      border-radius: var(--radius-md);
+      background: rgba(56, 189, 248, 0.04);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .file-drop-zone:hover {
+      background: rgba(56, 189, 248, 0.08);
+      border-color: var(--color-balance);
+    }
+    .import-summary-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .summary-pill {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .summary-pill.success {
+      background: var(--color-income-bg);
+      color: var(--color-income);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .summary-pill.duplicate {
+      background: rgba(244, 63, 94, 0.08);
+      color: var(--color-expense);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+    }
+    .import-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+    }
+    .import-item-row.is-dup {
+      opacity: 0.5;
+      background: rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -617,10 +796,15 @@
           <i data-lucide="search" class="search-icon"></i>
           <input type="text" class="search-input" id="searchInput" placeholder="Buscar por descrição ou categoria..." oninput="renderUI()">
         </div>
-        <div class="filter-pills">
-          <button class="filter-pill active" onclick="setFilterType('todos')" id="filter-todos">Todos</button>
-          <button class="filter-pill" onclick="setFilterType('Entrada')" id="filter-Entrada">Entradas</button>
-          <button class="filter-pill" onclick="setFilterType('Saída')" id="filter-Saida">Saídas</button>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <div class="filter-pills">
+            <button class="filter-pill active" onclick="setFilterType('todos')" id="filter-todos">Todos</button>
+            <button class="filter-pill" onclick="setFilterType('Entrada')" id="filter-Entrada">Entradas</button>
+            <button class="filter-pill" onclick="setFilterType('Saída')" id="filter-Saida">Saídas</button>
+          </div>
+          <button type="button" class="filter-pill" style="border-color: var(--border-active); color: var(--color-income);" onclick="openImportModal()" title="Importar Extrato Bancário (.OFX / .CSV)">
+            <i data-lucide="file-input"></i> Importar Extrato
+          </button>
         </div>
       </div>
 
@@ -749,6 +933,23 @@
           <input type="text" class="form-input" id="txDesc" placeholder="Ex: Parcela 6/8, Almoço...">
         </div>
 
+        <div class="form-group">
+          <label class="form-label" for="txBank">Conta / Banco (Opcional)</label>
+          <select class="form-input" id="txBank">
+            <option value="">Nenhum (Lançamento Manual)</option>
+            <option value="Nubank">Nubank</option>
+            <option value="Mercado Pago">Mercado Pago</option>
+            <option value="Inter">Banco Inter</option>
+            <option value="Itaú">Itaú</option>
+            <option value="Bradesco">Bradesco</option>
+            <option value="Santander">Santander</option>
+            <option value="C6 Bank">C6 Bank</option>
+            <option value="Caixa">Caixa Econômica</option>
+            <option value="Banco do Brasil">Banco do Brasil</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn-submit">
           <i data-lucide="check"></i> Salvar Movimentação
         </button>
@@ -804,6 +1005,11 @@
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button type="button" class="modal-action-btn" onclick="closeBackupModal(); openImportModal();">
+          <span class="modal-action-icon" style="color: var(--color-income); background: var(--color-income-bg);"><i data-lucide="file-input"></i></span>
+          <span style="font-weight: 700; color: var(--color-income);">Importar Extrato Bancário (.OFX / .CSV)</span>
+        </button>
+
         <button type="button" class="modal-action-btn" onclick="exportToCSV()">
           <span class="modal-action-icon"><i data-lucide="file-spreadsheet"></i></span>
           <span>Baixar Planilha Excel (CSV)</span>
@@ -875,6 +1081,84 @@
         <button type="button" class="filter-pill active" onclick="closeCategoryModal()">
           Concluído
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL IMPORTAÇÃO DE EXTRATO BANCÁRIO -->
+  <div class="modal-backdrop" id="importModal">
+    <div class="modal-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="file-input" style="color: var(--color-income);"></i> Importar Extrato Bancário
+        </div>
+        <button class="modal-close" onclick="closeImportModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <!-- ETAPA 1: SELEÇÃO DE ARQUIVO E BANCO -->
+      <div id="importStepSelect">
+        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+          Importe seus extratos do <strong>Nubank, Mercado Pago, Inter, Itaú, Bradesco, Santander</strong> e outros. Seus dados são processados 100% no seu navegador de forma privada e segura.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="importBankSelect">Banco de Origem</label>
+          <select class="form-input" id="importBankSelect">
+            <option value="auto">✨ Detectar Automaticamente (OFX)</option>
+            <option value="Nubank">Nubank</option>
+            <option value="Mercado Pago">Mercado Pago</option>
+            <option value="Inter">Banco Inter</option>
+            <option value="Itaú">Itaú</option>
+            <option value="Bradesco">Bradesco</option>
+            <option value="Santander">Santander</option>
+            <option value="C6 Bank">C6 Bank</option>
+            <option value="Caixa">Caixa Econômica</option>
+            <option value="Banco do Brasil">Banco do Brasil</option>
+            <option value="Outro">Outro Banco / Carteira</option>
+          </select>
+        </div>
+
+        <div class="file-drop-zone" onclick="document.getElementById('bankFileInput').click()" style="margin: 16px 0;">
+          <input type="file" id="bankFileInput" accept=".ofx,.csv,.txt" style="display: none;" onchange="handleBankFileSelect(event)">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-surface-elevated); display: flex; align-items: center; justify-content: center; color: var(--color-balance);">
+            <i data-lucide="upload-cloud" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 4px;">Toque para selecionar o extrato</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted);">Suporta arquivos <strong>.OFX</strong> (Recomendado) ou <strong>.CSV</strong></div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+          <div style="font-weight: 700; color: var(--text-main); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <i data-lucide="shield-check" style="width: 16px; height: 16px; color: var(--color-income);"></i> Proteção Anti-Duplicação
+          </div>
+          Pode importar extratos de meses anteriores sem medo: transações já cadastradas são identificadas pelo código bancário exclusivo e ignoradas automaticamente.
+        </div>
+      </div>
+
+      <!-- ETAPA 2: PRÉ-VISUALIZAÇÃO E CONFIRMAÇÃO -->
+      <div id="importStepPreview" style="display: none;">
+        <div class="import-summary-bar">
+          <div class="summary-pill success" id="importSummaryNew">0 novos</div>
+          <div class="summary-pill duplicate" id="importSummaryDup">0 já importados</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Pré-visualização dos Lançamentos</span>
+          <span id="importBankDetectedBadge"></span>
+        </div>
+
+        <div id="importPreviewList" style="display: flex; flex-direction: column; gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 4px; margin-bottom: 16px;"></div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn-action-small" style="height: 48px; width: auto; padding: 0 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-muted);" onclick="resetImportStep()">
+            Voltar
+          </button>
+          <button type="button" class="btn-submit" id="btnConfirmImport" style="margin-top: 0; flex: 1;" onclick="confirmImportTransactions()">
+            <i data-lucide="check"></i> Confirmar Importação
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1188,7 +1472,10 @@
             </div>
             <div class="tx-content-col">
               <div class="tx-row-top">
-                <div class="tx-title" title="${escapeHTML(t.category)}">${escapeHTML(t.category)}</div>
+                <div class="tx-title" title="${escapeHTML(t.category)}">
+                  <span class="title-text">${escapeHTML(t.category)}</span>
+                  ${getBankBadgeHTML(t.bank)}
+                </div>
                 <div class="tx-amount ${isEntrada ? 'entrada' : 'saida'}">
                   ${isEntrada ? '+' : '-'} ${formatBRL(t.amount)}
                 </div>
@@ -1427,6 +1714,7 @@
       document.getElementById('txDate').value = defaultDate;
       document.getElementById('txCategoryCustom').value = '';
       document.getElementById('txDesc').value = '';
+      document.getElementById('txBank').value = '';
 
       setFormType('Saída');
       document.getElementById('txModal').classList.add('open');
@@ -1649,6 +1937,7 @@
       const customCat = document.getElementById('txCategoryCustom').value.trim();
       const categoryVal = customCat || state.selectedCategory || 'Outros';
       const descVal = document.getElementById('txDesc').value.trim();
+      const bankVal = document.getElementById('txBank').value;
 
       if (amountVal <= 0) {
         showToast('Informe um valor válido maior que zero!', 'error');
@@ -1661,8 +1950,14 @@
         type: state.formType,
         category: categoryVal,
         description: descVal,
-        amount: amountVal
+        amount: amountVal,
+        bank: bankVal || ''
       };
+
+      const existing = state.transactions.find(t => t.id === id);
+      if (existing && existing.fitid) {
+        txObj.fitid = existing.fitid;
+      }
 
       const existingIndex = state.transactions.findIndex(t => t.id === id);
       if (existingIndex >= 0) {
@@ -1695,6 +1990,7 @@
       document.getElementById('txAmount').value = tx.amount.toFixed(2).replace('.', ',');
       document.getElementById('txDate').value = tx.date;
       document.getElementById('txDesc').value = tx.description || '';
+      document.getElementById('txBank').value = tx.bank || '';
 
       setFormType(tx.type);
       selectCategory(tx.category);
@@ -1873,10 +2169,10 @@
     }
 
     function exportToCSV() {
-      let csv = 'Data;Tipo;Categoria;Descricao;Valor;Mes;Ano\n';
+      let csv = 'Data;Tipo;Categoria;Descricao;Valor;Banco;Mes;Ano\n';
       state.transactions.forEach(t => {
         const [y, m, d] = t.date.split('-');
-        csv += `${t.date};${t.type};${t.category};${(t.description || '').replace(/;/g, ',')};${t.amount.toFixed(2).replace('.', ',')};${m};${y}\n`;
+        csv += `${t.date};${t.type};${t.category};${(t.description || '').replace(/;/g, ',')};${t.amount.toFixed(2).replace('.', ',')};${t.bank || ''};${m};${y}\n`;
       });
 
       const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1956,6 +2252,496 @@
       setTimeout(() => {
         window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
       }, 500);
+    }
+
+    // ===== BANCOS & IMPORTADOR DE EXTRATOS (OFX / CSV) =====
+
+    function getBankBadgeHTML(bank) {
+      if (!bank) return '';
+      const bLower = bank.toLowerCase();
+      let cls = 'bank-outro';
+      let label = bank;
+      if (bLower.includes('nubank')) { cls = 'bank-nubank'; label = 'Nubank'; }
+      else if (bLower.includes('mercado') || bLower.includes('mp')) { cls = 'bank-mercadopago'; label = 'Mercado Pago'; }
+      else if (bLower.includes('inter')) { cls = 'bank-inter'; label = 'Inter'; }
+      else if (bLower.includes('itaú') || bLower.includes('itau')) { cls = 'bank-itau'; label = 'Itaú'; }
+      else if (bLower.includes('bradesco')) { cls = 'bank-bradesco'; label = 'Bradesco'; }
+      else if (bLower.includes('santander')) { cls = 'bank-santander'; label = 'Santander'; }
+      else if (bLower.includes('c6')) { cls = 'bank-c6'; label = 'C6 Bank'; }
+      else if (bLower.includes('caixa')) { cls = 'bank-caixa'; label = 'Caixa'; }
+      else if (bLower.includes('brasil') || bLower === 'bb') { cls = 'bank-bb'; label = 'BB'; }
+      return `<span class="bank-pill ${cls}">${escapeHTML(label)}</span>`;
+    }
+
+    function suggestCategory(desc, type) {
+      const d = (desc || '').toLowerCase();
+      const cats = getCategories(type);
+
+      const findExisting = (keywords) => {
+        for (const kw of keywords) {
+          const match = cats.find(c => c.toLowerCase().includes(kw));
+          if (match) return match;
+        }
+        return null;
+      };
+
+      if (type === 'Entrada') {
+        if (d.includes('salario') || d.includes('salário') || d.includes('remunera') || d.includes('folha') || d.includes('vencimento')) {
+          return findExisting(['salário', 'salario']) || 'Salário';
+        }
+        if (d.includes('rdb') || d.includes('cdb') || d.includes('rendimento') || d.includes('invest') || d.includes('dividend') || d.includes('juros')) {
+          return findExisting(['rdb', 'investimento', 'cdb']) || 'Investimento';
+        }
+        if (d.includes('extra') || d.includes('freela') || d.includes('bico') || d.includes('serviço')) {
+          return findExisting(['serviço extra', 'extra', 'outros']) || 'Serviço Extra';
+        }
+        return cats[0] || 'Outros';
+      }
+
+      // Saída
+      if (d.includes('fatura') || d.includes('cartao') || d.includes('cartão') || d.includes('pagamento fatura')) {
+        return findExisting(['fatura', 'cartão', 'cartao']) || 'Fatura Cartão';
+      }
+      if (d.includes('mercado') || d.includes('supermercado') || d.includes('atacad') || d.includes('carrefour') || d.includes('pao de acucar') || d.includes('assai') || d.includes('hortifruti')) {
+        return findExisting(['mercado', 'alimentação']) || 'Mercado';
+      }
+      if (d.includes('combustivel') || d.includes('combustível') || d.includes('posto') || d.includes('gasolina') || d.includes('etanol') || d.includes('shell') || d.includes('ipiranga') || d.includes('petrobras')) {
+        return findExisting(['combustível', 'combustivel', 'transporte']) || 'Combustível';
+      }
+      if (d.includes('farmacia') || d.includes('farmácia') || d.includes('droga') || d.includes('drogasil') || d.includes('pacheco') || d.includes('panvel') || d.includes('medicamento')) {
+        return findExisting(['farmácia', 'farmacia', 'saúde']) || 'Farmácia';
+      }
+      if (d.includes('dentista') || d.includes('odont') || d.includes('juliana') || d.includes('clinica') || d.includes('clínica')) {
+        return findExisting(['dentista', 'juliana', 'saúde']) || 'Juliana Bofi - Clínica Dentista';
+      }
+      if (d.includes('cnh') || d.includes('autoescola') || d.includes('detran') || d.includes('parcela cnh')) {
+        return findExisting(['cnh', 'parcela cnh']) || 'Parcela CNH';
+      }
+      if (d.includes('faculdade') || d.includes('curso') || d.includes('mensalidade') || d.includes('microlins') || d.includes('escola')) {
+        return findExisting(['faculdade', 'microlins', 'cantina']) || 'Caixinha Faculdade';
+      }
+      if (d.includes('internet') || d.includes('vivo') || d.includes('claro') || d.includes('tim') || d.includes('fibra') || d.includes('banda larga')) {
+        return findExisting(['internet', 'telefone']) || 'Internet';
+      }
+      if (d.includes('cabelo') || d.includes('barbearia') || d.includes('salao') || d.includes('salão') || d.includes('corte')) {
+        return findExisting(['cabelo', 'barbearia']) || 'Cabelo';
+      }
+      if (d.includes('cantina') || d.includes('lanche') || d.includes('padaria')) {
+        return findExisting(['cantina', 'mercado']) || 'Cantina Microlins';
+      }
+      if (d.includes('cdb') || d.includes('invest') || d.includes('poupanca') || d.includes('poupança') || d.includes('tesouro')) {
+        return findExisting(['investimento', 'cdb']) || 'Investimento CDB';
+      }
+      if (d.includes('pix anderson') || (d.includes('pix') && d.includes('anderson'))) {
+        return findExisting(['anderson', 'pix']) || 'Pix Anderson';
+      }
+      if (d.includes('ifood') || d.includes('ubereats') || d.includes('restaurante') || d.includes('burger') || d.includes('pizza') || d.includes('mcdonald') || d.includes('cinema') || d.includes('netflix') || d.includes('spotify') || d.includes('steam')) {
+        return findExisting(['lazer', 'mercado']) || 'Lazer';
+      }
+
+      return cats[0] || 'Outros';
+    }
+
+    function detectBankFromOFX(text) {
+      const orgMatch = text.match(/<ORG>([^<\r\n]+)/i);
+      const bankIdMatch = text.match(/<BANKID>([^<\r\n]+)/i);
+      const fidMatch = text.match(/<FID>([^<\r\n]+)/i);
+      const org = (orgMatch ? orgMatch[1] : '').toUpperCase();
+      const bankId = (bankIdMatch ? bankIdMatch[1] : '').trim();
+      const fid = (fidMatch ? fidMatch[1] : '').trim();
+
+      if (org.includes('NU PAGAMENTOS') || org.includes('NUBANK') || bankId === '260' || fid === '260') return 'Nubank';
+      if (org.includes('MERCADO PAGO') || org.includes('MERCADOPAGO') || bankId === '323') return 'Mercado Pago';
+      if (org.includes('INTER') || bankId === '077' || bankId === '77') return 'Inter';
+      if (org.includes('ITAU') || org.includes('ITAÚ') || bankId === '341') return 'Itaú';
+      if (org.includes('BRADESCO') || bankId === '237') return 'Bradesco';
+      if (org.includes('SANTANDER') || bankId === '033' || bankId === '33') return 'Santander';
+      if (org.includes('C6') || bankId === '336') return 'C6 Bank';
+      if (org.includes('CAIXA') || bankId === '104') return 'Caixa';
+      if (org.includes('BRASIL') || bankId === '001' || bankId === '1') return 'Banco do Brasil';
+      return 'Outro';
+    }
+
+    function parseOFX(text, chosenBank) {
+      const detectedBank = chosenBank && chosenBank !== 'auto' ? chosenBank : detectBankFromOFX(text);
+      const trnRegex = /<STMTTRN>([\s\S]*?)(?:<\/STMTTRN>|(?=<STMTTRN>|<\/BANKTRANLIST>|$))/gi;
+      const transactions = [];
+      let match;
+
+      const extractTag = (chunk, tagName) => {
+        const re = new RegExp(`<${tagName}>([^<\\r\\n]+)`, 'i');
+        const m = chunk.match(re);
+        return m ? m[1].trim() : '';
+      };
+
+      while ((match = trnRegex.exec(text)) !== null) {
+        const chunk = match[1];
+        if (!chunk || !chunk.trim()) continue;
+
+        const trntype = extractTag(chunk, 'TRNTYPE').toUpperCase();
+        const rawAmt = extractTag(chunk, 'TRNAMT').replace(',', '.');
+        const dtposted = extractTag(chunk, 'DTPOSTED');
+        const fitid = extractTag(chunk, 'FITID');
+        const memo = extractTag(chunk, 'MEMO') || extractTag(chunk, 'NAME') || 'Transação Bancária';
+
+        if (!rawAmt || !dtposted) continue;
+
+        const numAmt = parseFloat(rawAmt);
+        if (isNaN(numAmt)) continue;
+
+        let date = '';
+        if (dtposted.length >= 8) {
+          const y = dtposted.slice(0, 4);
+          const m = dtposted.slice(4, 6);
+          const d = dtposted.slice(6, 8);
+          date = `${y}-${m}-${d}`;
+        } else {
+          date = new Date().toISOString().slice(0, 10);
+        }
+
+        let type = 'Saída';
+        let amount = Math.abs(numAmt);
+        if (numAmt > 0 || trntype === 'CREDIT' || trntype === 'DEP') {
+          type = 'Entrada';
+        } else {
+          type = 'Saída';
+        }
+
+        const category = suggestCategory(memo, type);
+
+        transactions.push({
+          date,
+          type,
+          category,
+          description: memo,
+          amount,
+          bank: detectedBank,
+          fitid: fitid || ''
+        });
+      }
+
+      return { transactions, detectedBank };
+    }
+
+    function parseCSV(text, chosenBank) {
+      const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length < 2) return { transactions: [], detectedBank: chosenBank || 'Outro' };
+
+      const headerLine = lines[0];
+      let sep = ',';
+      if ((headerLine.match(/;/g) || []).length > (headerLine.match(/,/g) || []).length) {
+        sep = ';';
+      } else if ((headerLine.match(/\t/g) || []).length > 1) {
+        sep = '\t';
+      }
+
+      let bank = chosenBank && chosenBank !== 'auto' ? chosenBank : 'Outro';
+      const fullTextUpper = text.slice(0, 500).toUpperCase();
+      if (bank === 'Outro' || !chosenBank || chosenBank === 'auto') {
+        if (fullTextUpper.includes('NU PAGAMENTOS') || fullTextUpper.includes('NUBANK')) bank = 'Nubank';
+        else if (fullTextUpper.includes('MERCADO PAGO') || fullTextUpper.includes('MERCADOPAGO')) bank = 'Mercado Pago';
+        else if (fullTextUpper.includes('BANCO INTER') || fullTextUpper.includes('INTER')) bank = 'Inter';
+        else if (fullTextUpper.includes('ITAU') || fullTextUpper.includes('ITAÚ')) bank = 'Itaú';
+        else if (fullTextUpper.includes('BRADESCO')) bank = 'Bradesco';
+        else if (fullTextUpper.includes('SANTANDER')) bank = 'Santander';
+        else if (fullTextUpper.includes('C6')) bank = 'C6 Bank';
+        else if (fullTextUpper.includes('CAIXA')) bank = 'Caixa';
+      }
+
+      const headers = headerLine.split(sep).map(h => h.replace(/^["']|["']$/g, '').trim().toLowerCase());
+
+      const findColIdx = (candidates) => {
+        for (const c of candidates) {
+          const idx = headers.findIndex(h => h === c || h.includes(c));
+          if (idx >= 0) return idx;
+        }
+        return -1;
+      };
+
+      const dateIdx = findColIdx(['data', 'date', 'dt', 'dia']);
+      const descIdx = findColIdx(['descri', 'desc', 'hist', 'lanç', 'lanc', 'memo', 'title', 'título', 'titulo', 'detalhe', 'estabelecimento']);
+      const amountIdx = findColIdx(['valor', 'amount', 'val', 'valor (r$)']);
+      const idIdx = findColIdx(['fitid', 'id', 'identificador', 'documento', 'doc']);
+
+      const transactions = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line) continue;
+
+        const cols = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let char of line) {
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === sep && !inQuotes) {
+            cols.push(cur.trim());
+            cur = '';
+          } else {
+            cur += char;
+          }
+        }
+        cols.push(cur.trim());
+
+        const rawDate = dateIdx >= 0 ? cols[dateIdx] : (cols[0] || '');
+        const rawDesc = descIdx >= 0 ? cols[descIdx] : (cols[1] || 'Lançamento');
+        const rawAmt = amountIdx >= 0 ? cols[amountIdx] : (cols[2] || '');
+        const rawId = idIdx >= 0 ? cols[idIdx] : '';
+
+        if (!rawDate || !rawAmt) continue;
+
+        let cleanDate = rawDate.replace(/^["']|["']$/g, '').trim();
+        let date = '';
+        if (/^\d{4}-\d{2}-\d{2}/.test(cleanDate)) {
+          date = cleanDate.slice(0, 10);
+        } else if (/^\d{1,2}\/\d{1,2}\/\d{4}/.test(cleanDate)) {
+          const parts = cleanDate.split('/');
+          date = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+        } else if (/^\d{1,2}-\d{1,2}-\d{4}/.test(cleanDate)) {
+          const parts = cleanDate.split('-');
+          date = `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+        } else {
+          continue;
+        }
+
+        let amtStr = rawAmt.replace(/^["']|["']$/g, '').trim();
+        amtStr = amtStr.replace(/R\$\s?/gi, '').trim();
+        let isNegative = amtStr.includes('-');
+        amtStr = amtStr.replace('-', '');
+        if (amtStr.includes(',') && amtStr.includes('.')) {
+          amtStr = amtStr.replace(/\./g, '').replace(',', '.');
+        } else if (amtStr.includes(',')) {
+          amtStr = amtStr.replace(',', '.');
+        }
+        const numAmt = parseFloat(amtStr);
+        if (isNaN(numAmt) || numAmt === 0) continue;
+
+        const type = isNegative ? 'Saída' : 'Entrada';
+        const cleanDesc = rawDesc.replace(/^["']|["']$/g, '').trim() || 'Lançamento Banco';
+        const category = suggestCategory(cleanDesc, type);
+
+        transactions.push({
+          date,
+          type,
+          category,
+          description: cleanDesc,
+          amount: Math.abs(numAmt),
+          bank,
+          fitid: rawId.replace(/^["']|["']$/g, '').trim()
+        });
+      }
+
+      return { transactions, detectedBank: bank };
+    }
+
+    function getTransactionSignature(t) {
+      if (t.fitid && t.fitid.trim()) {
+        return `fitid:${t.fitid.trim()}`;
+      }
+      const b = (t.bank || '').toLowerCase().trim();
+      const d = (t.date || '').trim();
+      const typ = (t.type || '').trim();
+      const a = Number(t.amount || 0).toFixed(2);
+      const desc = (t.description || '').toLowerCase().trim();
+      return `sig:${b}_${d}_${typ}_${a}_${desc}`;
+    }
+
+    function getExistingSignaturesSet() {
+      const set = new Set();
+      state.transactions.forEach(t => {
+        if (t.fitid && t.fitid.trim()) {
+          set.add(`fitid:${t.fitid.trim()}`);
+        }
+        const b = (t.bank || '').toLowerCase().trim();
+        const d = (t.date || '').trim();
+        const typ = (t.type || '').trim();
+        const a = Number(t.amount || 0).toFixed(2);
+        const desc = (t.description || '').toLowerCase().trim();
+        set.add(`sig:${b}_${d}_${typ}_${a}_${desc}`);
+      });
+      return set;
+    }
+
+    let pendingImportTransactions = [];
+
+    function handleBankFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const chosenBank = document.getElementById('importBankSelect').value;
+      const fileName = file.name.toLowerCase();
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const content = event.target.result;
+          let parsed;
+          if (fileName.endsWith('.ofx')) {
+            parsed = parseOFX(content, chosenBank);
+          } else {
+            parsed = parseCSV(content, chosenBank);
+          }
+
+          if (!parsed.transactions || parsed.transactions.length === 0) {
+            showToast('Nenhuma transação encontrada no arquivo!', 'error');
+            return;
+          }
+
+          const existingSet = getExistingSignaturesSet();
+          let newCount = 0;
+          let dupCount = 0;
+
+          pendingImportTransactions = parsed.transactions.map((t, idx) => {
+            const sig = getTransactionSignature(t);
+            const isDup = existingSet.has(sig);
+            if (isDup) {
+              dupCount++;
+              return { ...t, isDuplicate: true, tempId: `imp-${idx}` };
+            } else {
+              newCount++;
+              existingSet.add(sig);
+              return { ...t, isDuplicate: false, tempId: `imp-${idx}` };
+            }
+          });
+
+          showImportPreview(parsed.detectedBank, newCount, dupCount);
+        } catch(err) {
+          console.error(err);
+          showToast('Erro ao ler o arquivo bancário!', 'error');
+        }
+      };
+
+      reader.readAsText(file);
+    }
+
+    function showImportPreview(detectedBank, newCount, dupCount) {
+      document.getElementById('importStepSelect').style.display = 'none';
+      document.getElementById('importStepPreview').style.display = 'block';
+
+      document.getElementById('importSummaryNew').textContent = `${newCount} nova${newCount === 1 ? '' : 's'} para importar`;
+      document.getElementById('importSummaryDup').textContent = `${dupCount} duplicada${dupCount === 1 ? '' : 's'} (ignoradas)`;
+
+      const badgeEl = document.getElementById('importBankDetectedBadge');
+      if (badgeEl) {
+        badgeEl.innerHTML = getBankBadgeHTML(detectedBank);
+      }
+
+      const btnConfirm = document.getElementById('btnConfirmImport');
+      if (newCount === 0) {
+        btnConfirm.disabled = true;
+        btnConfirm.textContent = 'Todas as movimentações já foram importadas';
+        btnConfirm.style.opacity = '0.5';
+      } else {
+        btnConfirm.disabled = false;
+        btnConfirm.innerHTML = `<i data-lucide="check"></i> Confirmar Importação (${newCount})`;
+        btnConfirm.style.opacity = '1';
+      }
+
+      const container = document.getElementById('importPreviewList');
+      container.innerHTML = pendingImportTransactions.map((t, idx) => {
+        const [y, m, d] = t.date.split('-');
+        const dateFormatted = `${d}/${m}/${y}`;
+        const isEntrada = t.type === 'Entrada';
+        const cats = getCategories(t.type);
+
+        return `
+          <div class="import-item-row ${t.isDuplicate ? 'is-dup' : ''}">
+            <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-weight: 700; font-size: 0.8rem; color: var(--text-faint);">${dateFormatted}</span>
+                ${getBankBadgeHTML(t.bank)}
+                ${t.isDuplicate ? '<span style="font-size: 0.7rem; font-weight: 700; color: var(--color-expense); background: rgba(244,63,94,0.12); padding: 1px 5px; border-radius: 4px;">Já Salvo</span>' : ''}
+              </div>
+              <div style="font-size: 0.86rem; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                ${escapeHTML(t.description)}
+              </div>
+              ${!t.isDuplicate ? `
+                <div style="margin-top: 4px;">
+                  <select class="form-input" style="padding: 4px 8px; font-size: 0.78rem; height: 30px; width: auto; max-width: 220px;" onchange="updatePendingCategory(${idx}, this.value)">
+                    ${cats.map(c => `<option value="${escapeHTML(c)}" ${c === t.category ? 'selected' : ''}>${escapeHTML(c)}</option>`).join('')}
+                  </select>
+                </div>
+              ` : ''}
+            </div>
+            <div style="text-align: right; flex-shrink: 0;">
+              <div style="font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: ${isEntrada ? 'var(--color-income)' : 'var(--color-expense)'};">
+                ${isEntrada ? '+' : '-'} ${formatBRL(t.amount)}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function updatePendingCategory(idx, newCat) {
+      if (pendingImportTransactions[idx]) {
+        pendingImportTransactions[idx].category = newCat;
+      }
+    }
+
+    async function confirmImportTransactions() {
+      const toAdd = pendingImportTransactions
+        .filter(t => !t.isDuplicate)
+        .map((t, idx) => ({
+          id: `tx-${Date.now()}-${idx}`,
+          date: t.date,
+          type: t.type,
+          category: t.category,
+          description: t.description,
+          amount: t.amount,
+          bank: t.bank || '',
+          fitid: t.fitid || ''
+        }));
+
+      if (toAdd.length === 0) {
+        showToast('Nenhum novo lançamento para importar!', 'info');
+        closeImportModal();
+        return;
+      }
+
+      state.transactions = [...toAdd, ...state.transactions];
+      saveLocal();
+
+      const latestImportDate = toAdd[0].date;
+      const [y, m] = latestImportDate.split('-');
+      state.currentYear = parseInt(y, 10);
+      state.currentMonth = parseInt(m, 10) - 1;
+
+      renderUI();
+
+      if (state.supabase) {
+        try {
+          showToast(`Sincronizando ${toAdd.length} lançamentos na nuvem...`, 'info');
+          await state.supabase.from('transacoes').upsert(toAdd);
+        } catch(err) {
+          console.warn('[Cloud] Erro ao sincronizar importação na nuvem:', err);
+        }
+      }
+
+      closeImportModal();
+      showToast(`${toAdd.length} movimentações importadas com sucesso!`, 'success');
+    }
+
+    function resetImportStep() {
+      document.getElementById('importStepSelect').style.display = 'block';
+      document.getElementById('importStepPreview').style.display = 'none';
+      const fileInput = document.getElementById('bankFileInput');
+      if (fileInput) fileInput.value = '';
+      pendingImportTransactions = [];
+    }
+
+    function openImportModal() {
+      resetImportStep();
+      document.getElementById('importModal').classList.add('open');
+      lucide.createIcons();
+    }
+
+    function closeImportModal() {
+      document.getElementById('importModal').classList.remove('open');
+      resetImportStep();
     }
 
     function showToast(msg, type = 'success') {
