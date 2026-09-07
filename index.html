@@ -643,6 +643,10 @@
           <i data-lucide="trash-2"></i> Zerar Toda a Base (Começar do Zero)
         </button>
 
+        <button type="button" class="type-btn" style="color: var(--color-balance); border-color: rgba(56, 189, 248, 0.3);" onclick="forceAppUpdate()">
+          <i data-lucide="refresh-cw"></i> Forçar Atualização / Limpar Cache do App
+        </button>
+
         <button type="button" class="type-btn" style="color: var(--text-faint);" onclick="restoreOriginalSpreadsheet()">
           <i data-lucide="rotate-ccw"></i> Restaurar Dados Originais da Planilha (2024)
         </button>
@@ -685,7 +689,13 @@
       lucide.createIcons();
 
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          reg.update();
+        }).catch(() => {});
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          window.location.reload();
+        });
       }
     });
 
@@ -1483,6 +1493,29 @@
       renderUI();
       showToast('Dados da planilha restaurados!', 'success');
       closeBackupModal();
+    }
+
+    async function forceAppUpdate() {
+      showToast('Atualizando aplicativo e limpando cache...', 'info');
+      try {
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          for (let reg of registrations) {
+            await reg.unregister();
+          }
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          for (let key of keys) {
+            await caches.delete(key);
+          }
+        }
+      } catch(e) {
+        console.warn('Erro ao limpar cache:', e);
+      }
+      setTimeout(() => {
+        window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
+      }, 500);
     }
 
     function showToast(msg, type = 'success') {
