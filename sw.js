@@ -1,5 +1,5 @@
 // Service Worker - Controle Financeiro PWA
-const CACHE_NAME = 'financas-v2';
+const CACHE_NAME = 'financas-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
