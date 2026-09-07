@@ -703,11 +703,11 @@
       if (savedTx) {
         try {
           const parsed = JSON.parse(savedTx);
-          // Auto-limpar se for apenas o mock antigo de 2024
-          const isOldMock = parsed.length > 0 && parsed.every(t => t.id && t.id.startsWith('tx-0'));
-          if (isOldMock && !localStorage.getItem('financas_cleared_v1')) {
+          // Auto-limpar dados de exemplo de 2024 para comecar base zerada
+          const hasOldSampleData = parsed.length > 0 && parsed.some(t => t.date && t.date.startsWith('2024'));
+          if (hasOldSampleData && !localStorage.getItem('financas_cleared_v2')) {
             state.transactions = [];
-            localStorage.setItem('financas_cleared_v1', 'true');
+            localStorage.setItem('financas_cleared_v2', 'true');
             saveLocal();
           } else {
             state.transactions = parsed;
@@ -717,7 +717,7 @@
         }
       } else {
         state.transactions = [];
-        localStorage.setItem('financas_cleared_v1', 'true');
+        localStorage.setItem('financas_cleared_v2', 'true');
         saveLocal();
       }
     }
@@ -1388,7 +1388,7 @@
       try {
         const { data, error } = await state.supabase.from('transacoes').select('*').order('date', { ascending: false });
         if (error) throw error;
-        if (data && data.length > 0) {
+        if (Array.isArray(data)) {
           state.transactions = data;
           saveLocal();
           renderUI();
