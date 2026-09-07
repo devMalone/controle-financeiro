@@ -1169,6 +1169,20 @@
           <i data-lucide="upload-cloud"></i> Enviar todos os dados locais para a nuvem
         </button>
       </div>
+
+      <div style="margin-top: 14px; padding: 12px 14px; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+        <div style="font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+          <i data-lucide="database" style="width: 15px; height: 15px; color: var(--color-income);"></i>
+          <span>Suporte Nativo a Bancos no Supabase</span>
+        </div>
+        <p style="margin-bottom: 8px;">Para o Supabase gravar as colunas nativas de banco e conciliação, copie o comando e execute no <strong>SQL Editor</strong> do Supabase:</p>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <code style="flex: 1; background: var(--bg-primary); padding: 8px 10px; border-radius: 6px; font-size: 0.74rem; overflow-x: auto; white-space: nowrap; color: var(--color-income); font-family: var(--font-mono);">ALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS bank TEXT DEFAULT ''; ALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS fitid TEXT DEFAULT '';</code>
+          <button type="button" class="btn-action-small" onclick="copySupabaseMigration()" title="Copiar comando SQL" style="width: auto; padding: 8px 12px; font-size: 0.78rem; font-weight: 700; color: var(--color-income); gap: 4px; flex-shrink: 0; background: var(--color-income-bg); border: 1px solid var(--border-active);">
+            <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Copiar
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2531,23 +2545,82 @@
       showToast('Desconectado da nuvem. Operando em modo local.', 'success');
     }
 
+    function copySupabaseMigration() {
+      const sql = "ALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS bank TEXT DEFAULT '';\nALTER TABLE public.transacoes ADD COLUMN IF NOT EXISTS fitid TEXT DEFAULT '';";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(sql).then(() => {
+          showToast('Comando SQL copiado com sucesso!', 'success');
+        }).catch(() => {
+          prompt('Copie o comando SQL abaixo para o Supabase:', sql);
+        });
+      } else {
+        prompt('Copie o comando SQL abaixo para o Supabase:', sql);
+      }
+    }
+
+    function parseCloudTransaction(cloudItem) {
+      if (!cloudItem) return cloudItem;
+      let bank = cloudItem.bank || '';
+      let fitid = cloudItem.fitid || '';
+      let description = cloudItem.description || '';
+
+      // Decodifica metadados caso a tabela do Supabase não tenha as colunas nativas
+      if (!bank && description) {
+        const bankMatch = description.match(/\[banco:\s*([^\]]+)\]/i);
+        if (bankMatch) {
+          bank = bankMatch[1].trim();
+          description = description.replace(/\[banco:\s*[^\]]+\]/gi, '').trim();
+        }
+      }
+      if (!fitid && description) {
+        const fitidMatch = description.match(/\[fitid:\s*([^\]]+)\]/i);
+        if (fitidMatch) {
+          fitid = fitidMatch[1].trim();
+          description = description.replace(/\[fitid:\s*[^\]]+\]/gi, '').trim();
+        }
+      }
+
+      return {
+        ...cloudItem,
+        description,
+        bank,
+        fitid
+      };
+    }
+
     function listenRealtime() {
       if (!state.supabase) return;
       state.supabase
         .channel('transacoes_channel')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'transacoes' }, payload => {
           if (payload.eventType === 'INSERT') {
-            const exists = state.transactions.some(t => t.id === payload.new.id);
-            if (!exists) {
-              state.transactions.unshift(payload.new);
-              saveLocal();
-              renderUI();
+            const incoming = parseCloudTransaction(payload.new);
+            const idx = state.transactions.findIndex(t => t.id === incoming.id);
+            if (idx >= 0) {
+              const current = state.transactions[idx];
+              state.transactions[idx] = {
+                ...current,
+                ...incoming,
+                bank: incoming.bank || current.bank || '',
+                fitid: incoming.fitid || current.fitid || ''
+              };
+            } else {
+              state.transactions.unshift(incoming);
               showToast('Nova movimentação sincronizada da nuvem!', 'success');
             }
+            saveLocal();
+            renderUI();
           } else if (payload.eventType === 'UPDATE') {
-            const idx = state.transactions.findIndex(t => t.id === payload.new.id);
+            const incoming = parseCloudTransaction(payload.new);
+            const idx = state.transactions.findIndex(t => t.id === incoming.id);
             if (idx >= 0) {
-              state.transactions[idx] = payload.new;
+              const current = state.transactions[idx];
+              state.transactions[idx] = {
+                ...current,
+                ...incoming,
+                bank: incoming.bank || current.bank || '',
+                fitid: incoming.fitid || current.fitid || ''
+              };
               saveLocal();
               renderUI();
             }
@@ -2576,13 +2649,18 @@
 
       const res = await state.supabase.from('transacoes').upsert(payload);
       if (res.error) {
-        console.warn('[Cloud] Upsert falhou com colunas extras (bank/fitid). Tentando modo compatibilidade:', res.error);
+        console.warn('[Cloud] Upsert falhou com colunas extras (bank/fitid). Salvando no modo compatibilidade com metadados:', res.error);
+        
+        let metaDesc = txObj.description || '';
+        if (txObj.bank) metaDesc += ` [banco:${txObj.bank}]`;
+        if (txObj.fitid) metaDesc += ` [fitid:${txObj.fitid}]`;
+
         const classicPayload = {
           id: txObj.id,
           date: txObj.date,
           type: txObj.type,
           category: txObj.category,
-          description: txObj.description || '',
+          description: metaDesc.trim(),
           amount: txObj.amount
         };
         const retry = await state.supabase.from('transacoes').upsert(classicPayload);
@@ -2610,15 +2688,20 @@
 
       const res = await state.supabase.from('transacoes').upsert(payload);
       if (res.error) {
-        console.warn('[Cloud] Upsert em lote falhou com colunas novas. Tentando esquema clássico:', res.error);
-        const classicPayload = txList.map(t => ({
-          id: t.id,
-          date: t.date,
-          type: t.type,
-          category: t.category,
-          description: t.description || '',
-          amount: t.amount
-        }));
+        console.warn('[Cloud] Upsert em lote falhou. Enviando no modo compatibilidade com metadados:', res.error);
+        const classicPayload = txList.map(t => {
+          let metaDesc = t.description || '';
+          if (t.bank) metaDesc += ` [banco:${t.bank}]`;
+          if (t.fitid) metaDesc += ` [fitid:${t.fitid}]`;
+          return {
+            id: t.id,
+            date: t.date,
+            type: t.type,
+            category: t.category,
+            description: metaDesc.trim(),
+            amount: t.amount
+          };
+        });
         const retry = await state.supabase.from('transacoes').upsert(classicPayload);
         if (retry.error) {
           console.error('[Cloud] Erro persistente ao sincronizar lote:', retry.error);
@@ -2650,13 +2733,16 @@
         }
 
         const cloudMap = new Map();
-        data.forEach(item => cloudMap.set(item.id, item));
+        data.forEach(item => {
+          const parsed = parseCloudTransaction(item);
+          cloudMap.set(parsed.id, parsed);
+        });
 
         const merged = [];
         const missingInCloud = [];
 
         // 1. Incorpora os dados da nuvem, preservando atributos locais se a nuvem não tiver (como bank/fitid)
-        data.forEach(cloudItem => {
+        cloudMap.forEach(cloudItem => {
           const localMatch = localTxs.find(l => l.id === cloudItem.id);
           merged.push({
             ...cloudItem,
