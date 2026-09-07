@@ -861,6 +861,222 @@
       opacity: 0.5;
       background: rgba(0, 0, 0, 0.2);
     }
+
+    /* =========================================================================
+       MÓDULO ORÇAMENTO MENSAL (BUDGET & CONTAS FIXAS)
+       ========================================================================= */
+    .budget-hero-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: var(--radius-md);
+      padding: clamp(14px, 2.5vw, 20px);
+      margin-bottom: 20px;
+    }
+    .budget-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .budget-kpi-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+    }
+    .budget-kpi-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .budget-kpi-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .budget-kpi-value {
+      font-family: var(--font-mono);
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .budget-progress-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+    .budget-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .budget-progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--bg-surface-elevated);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+    .budget-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #38bdf8 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 0%;
+    }
+    .budget-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: clamp(14px, 2.5vw, 18px);
+      margin-bottom: 20px;
+    }
+    .budget-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .budget-section-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .budget-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .budget-item-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    .budget-item-card.is-paid {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.05);
+    }
+    .budget-item-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .budget-item-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .budget-item-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+    .budget-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+    .budget-status-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+    .budget-status-btn.pending {
+      background: rgba(244, 63, 94, 0.1);
+      color: var(--color-expense);
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+    .budget-status-btn.pending:hover {
+      background: rgba(244, 63, 94, 0.2);
+    }
+    .budget-status-btn.paid {
+      background: rgba(16, 185, 129, 0.14);
+      color: var(--color-income);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    .budget-status-btn.paid:hover {
+      background: rgba(16, 185, 129, 0.24);
+    }
+    .budget-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .budget-action-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .budget-action-btn:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-main);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .budget-action-btn.danger:hover {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--color-expense);
+      border-color: rgba(244, 63, 94, 0.35);
+    }
+    .budget-action-btn.quick-post {
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--color-balance);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+    .budget-action-btn.quick-post:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: var(--color-balance);
+    }
   </style>
 </head>
 <body>
@@ -965,6 +1181,9 @@
         <button class="tab-btn" onclick="switchTab('categorias')">
           <i data-lucide="pie-chart"></i> Categorias
         </button>
+        <button class="tab-btn" onclick="switchTab('orcamento')">
+          <i data-lucide="wallet-cards"></i> Orçamento
+        </button>
       </div>
       <div class="tabs-scroll-fade" id="tabsScrollFade" onclick="scrollTabsNext()" title="Ver mais abas ao lado">
         <span class="tabs-scroll-hint-pill">
@@ -1057,6 +1276,93 @@
           <span style="flex: 1;">Gerenciar & Editar Lista de Categorias</span>
           <i data-lucide="chevron-right" style="color: var(--text-faint);"></i>
         </button>
+      </div>
+    </div>
+
+    <!-- TAB 5: Orçamento Mensal & Planejamento -->
+    <div id="tab-orcamento" class="tab-content">
+      <!-- HERO RESUMO ORÇAMENTÁRIO -->
+      <div class="budget-hero-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="wallet-cards" style="color: var(--color-balance); width: 22px; height: 22px;"></i>
+              <span>Orçamento & Planejamento Mensal</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;">
+              Controle de contas fixas e previsão de gastos para <strong id="budgetMonthLabel" style="color: var(--text-main);">o mês</strong>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-action-small" style="width: auto; padding: 6px 12px; font-size: 0.8rem; gap: 6px; color: var(--color-expense); border: 1px solid rgba(244,63,94,0.35); background: var(--color-expense-bg);" onclick="openBudgetModal('Saída')">
+              <i data-lucide="plus-circle"></i> Nova Despesa Fixa
+            </button>
+            <button type="button" class="btn-action-small" style="width: auto; padding: 6px 12px; font-size: 0.8rem; gap: 6px; color: var(--color-income); border: 1px solid rgba(16,185,129,0.35); background: var(--color-income-bg);" onclick="openBudgetModal('Entrada')">
+              <i data-lucide="plus-circle"></i> Nova Renda Fixa
+            </button>
+          </div>
+        </div>
+
+        <div class="budget-kpi-grid">
+          <div class="budget-kpi-box">
+            <span class="budget-kpi-label"><i data-lucide="arrow-up-right" style="color: var(--color-income); width: 14px; height: 14px;"></i> Renda Prevista</span>
+            <span class="budget-kpi-value income" id="budgetKpiIncome">R$ 0,00</span>
+          </div>
+          <div class="budget-kpi-box">
+            <span class="budget-kpi-label"><i data-lucide="arrow-down-left" style="color: var(--color-expense); width: 14px; height: 14px;"></i> Despesas Fixas</span>
+            <span class="budget-kpi-value expense" id="budgetKpiExpense">R$ 0,00</span>
+          </div>
+          <div class="budget-kpi-box">
+            <span class="budget-kpi-label"><i data-lucide="scale" style="color: var(--color-balance); width: 14px; height: 14px;"></i> Saldo Livre</span>
+            <span class="budget-kpi-value" id="budgetKpiBalance">R$ 0,00</span>
+          </div>
+          <div class="budget-kpi-box">
+            <span class="budget-kpi-label"><i data-lucide="percent" style="color: #fb923c; width: 14px; height: 14px;"></i> Comprometido</span>
+            <span class="budget-kpi-value" id="budgetKpiRate">0%</span>
+          </div>
+        </div>
+
+        <div class="budget-progress-box">
+          <div class="budget-progress-header">
+            <span style="font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="check-circle-2" style="color: var(--color-income); width: 16px; height: 16px;"></i> Progresso das Contas do Mês
+            </span>
+            <span id="budgetProgressText" style="color: var(--text-muted); font-weight: 600;">R$ 0,00 de R$ 0,00 pagos (0%)</span>
+          </div>
+          <div class="budget-progress-track">
+            <div class="budget-progress-fill" id="budgetProgressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO 1: RECEITAS PREVISTAS -->
+      <div class="budget-section">
+        <div class="budget-section-header">
+          <div class="budget-section-title">
+            <i data-lucide="trending-up" style="color: var(--color-income); width: 18px; height: 18px;"></i>
+            <span>Rendas & Entradas Previstas</span>
+            <span class="summary-pill success" id="budgetIncomeTotalBadge" style="padding: 2px 10px; font-size: 0.78rem; width: auto;">R$ 0,00</span>
+          </div>
+          <button type="button" class="btn-action-small" style="width: auto; padding: 4px 10px; font-size: 0.78rem; gap: 5px; color: var(--color-income); background: var(--color-income-bg); border: 1px solid rgba(16,185,129,0.3);" onclick="openBudgetModal('Entrada')">
+            <i data-lucide="plus"></i> Adicionar Renda
+          </button>
+        </div>
+        <div class="budget-list" id="budgetIncomeList"></div>
+      </div>
+
+      <!-- SEÇÃO 2: DESPESAS E CONTAS DO MÊS -->
+      <div class="budget-section">
+        <div class="budget-section-header">
+          <div class="budget-section-title">
+            <i data-lucide="calendar-clock" style="color: var(--color-expense); width: 18px; height: 18px;"></i>
+            <span>Despesas & Contas Fixas do Mês</span>
+            <span class="summary-pill duplicate" id="budgetExpenseTotalBadge" style="padding: 2px 10px; font-size: 0.78rem; width: auto;">R$ 0,00</span>
+          </div>
+          <button type="button" class="btn-action-small" style="width: auto; padding: 4px 10px; font-size: 0.78rem; gap: 5px; color: var(--color-expense); background: var(--color-expense-bg); border: 1px solid rgba(244,63,94,0.3);" onclick="openBudgetModal('Saída')">
+            <i data-lucide="plus"></i> Adicionar Despesa
+          </button>
+        </div>
+        <div class="budget-list" id="budgetExpenseList"></div>
       </div>
     </div>
 
@@ -1388,6 +1694,77 @@
     </div>
   </div>
 
+  <!-- MODAL ORÇAMENTO (NOVO/EDITAR ITEM) -->
+  <div class="modal-backdrop" id="budgetModal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title" id="budgetModalTitle" style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="wallet-cards" style="color: var(--color-income);"></i> <span>Nova Despesa Fixa</span>
+        </div>
+        <button class="modal-close" onclick="closeBudgetModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <form id="budgetForm" onsubmit="saveBudgetItem(event)">
+        <input type="hidden" id="budgetItemId">
+
+        <div class="type-toggle-container" style="margin-bottom: 18px;">
+          <button type="button" class="type-toggle-btn saida active" id="btnBudgetTypeSaida" onclick="setBudgetFormType('Saída')">
+            <i data-lucide="arrow-down-left"></i> Despesa / Conta Fixa
+          </button>
+          <button type="button" class="type-toggle-btn entrada" id="btnBudgetTypeEntrada" onclick="setBudgetFormType('Entrada')">
+            <i data-lucide="arrow-up-right"></i> Renda Prevista
+          </button>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="budgetName">
+            <i data-lucide="tag" style="width: 16px; height: 16px;"></i>
+            <span>Nome do Item / Conta</span>
+          </label>
+          <input type="text" class="form-input" id="budgetName" placeholder="Ex: Aluguel, Internet Fibra, Salário, Energia..." required autocomplete="off">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="budgetAmount">
+            <i data-lucide="circle-dollar-sign" style="width: 16px; height: 16px; color: var(--color-income);"></i>
+            <span>Valor Previsto (R$)</span>
+          </label>
+          <div class="amount-hero-wrapper" onclick="document.getElementById('budgetAmount').focus()">
+            <span class="amount-hero-badge">R$</span>
+            <input type="text" inputmode="numeric" class="amount-hero-input" id="budgetAmount" placeholder="0,00" required oninput="formatCurrencyInput(this)" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="budgetCategory">
+            <i data-lucide="folder" style="width: 16px; height: 16px;"></i>
+            <span>Categoria</span>
+          </label>
+          <select class="form-input" id="budgetCategory" required></select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" for="budgetDueDay">
+            <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+            <span>Dia Previsto do Mês (1 a 31 - Opcional)</span>
+          </label>
+          <input type="number" class="form-input" id="budgetDueDay" min="1" max="31" placeholder="Ex: 5, 10, 20..." inputmode="numeric">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.88rem; color: var(--text-main);">
+            <input type="checkbox" id="budgetRecurring" checked style="width: 18px; height: 18px; accent-color: var(--accent-primary);">
+            <span>Repetir todo mês automaticamente (Recorrente)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i data-lucide="check"></i> Salvar no Orçamento
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="app-toast" id="toastBox">
     <i data-lucide="check-circle-2"></i>
@@ -1414,7 +1791,9 @@
       selectedCategory: 'Fatura Cartão',
       categories: null,
       supabase: null,
-      isOnline: false
+      isOnline: false,
+      budgetItems: [],
+      budgetFormType: 'Saída'
     };
 
     // ===== GERENCIADOR DE HISTÓRICO & BOTÃO VOLTAR DO CELULAR =====
@@ -1443,6 +1822,7 @@
           else if (id === 'importModal') closeImportModal(true);
           else if (id === 'backupModal') closeBackupModal(true);
           else if (id === 'syncModal') closeSyncModal(true);
+          else if (id === 'budgetModal') closeBudgetModal(true);
           else topModal.classList.remove('open');
 
           activeModalStack = activeModalStack.filter(m => m !== id);
@@ -1471,6 +1851,7 @@
           else if (id === 'importModal') closeImportModal();
           else if (id === 'backupModal') closeBackupModal();
           else if (id === 'syncModal') closeSyncModal();
+          else if (id === 'budgetModal') closeBudgetModal();
           updateBodyScrollLock();
         }
       });
@@ -1561,6 +1942,8 @@
         localStorage.setItem('financas_cleared_v2', 'true');
         saveLocal();
       }
+
+      loadBudget();
     }
 
     function loadCategories() {
@@ -1744,6 +2127,7 @@
       renderDashboard(monthTxs);
       renderDailyTimeline(monthTxs);
       renderCategoryBreakdown(monthTxs);
+      renderBudget();
 
       lucide.createIcons();
     }
@@ -2014,6 +2398,7 @@
       }
       const targetTab = document.getElementById(`tab-${tabId}`);
       if (targetTab) targetTab.classList.add('active');
+      if (tabId === 'orcamento') renderBudget();
       lucide.createIcons();
       updateTabsScrollIndicator();
     }
@@ -3428,6 +3813,420 @@
         '"': '&quot;',
         "'": '&#39;'
       }[m]));
+    }
+
+    // =========================================================================
+    // MÓDULO ORÇAMENTO MENSAL (BUDGET & CONTAS FIXAS)
+    // =========================================================================
+
+    const DEFAULT_BUDGET_ITEMS = [
+      { id: 'b_salario', name: 'Salário Mensal', type: 'Entrada', amount: 3500, category: 'Salário', dueDay: 5, recurring: true },
+      { id: 'b_aluguel', name: 'Aluguel / Moradia', type: 'Saída', amount: 1200, category: 'Outros', dueDay: 10, recurring: true },
+      { id: 'b_internet', name: 'Internet Fibra', type: 'Saída', amount: 120, category: 'Internet', dueDay: 15, recurring: true },
+      { id: 'b_mercado', name: 'Mercado Estimado', type: 'Saída', amount: 800, category: 'Mercado', dueDay: 1, recurring: true }
+    ];
+
+    function loadBudget() {
+      const saved = localStorage.getItem('financas_budget_items');
+      if (saved) {
+        try {
+          state.budgetItems = JSON.parse(saved);
+          if (!Array.isArray(state.budgetItems)) state.budgetItems = [];
+          return;
+        } catch(e) {
+          state.budgetItems = [];
+        }
+      } else {
+        // Inicializa com itens de exemplo para o usuário visualizar o potencial do módulo
+        state.budgetItems = JSON.parse(JSON.stringify(DEFAULT_BUDGET_ITEMS));
+        saveBudget();
+      }
+    }
+
+    function saveBudget() {
+      localStorage.setItem('financas_budget_items', JSON.stringify(state.budgetItems || []));
+    }
+
+    function getBudgetMonthStatusKey() {
+      const mStr = String(state.currentMonth + 1).padStart(2, '0');
+      return `financas_budget_status_${state.currentYear}_${mStr}`;
+    }
+
+    function loadBudgetMonthStatus() {
+      const key = getBudgetMonthStatusKey();
+      const saved = localStorage.getItem(key);
+      if (saved) {
+        try {
+          return JSON.parse(saved) || {};
+        } catch(e) {
+          return {};
+        }
+      }
+      return {};
+    }
+
+    function saveBudgetMonthStatus(map) {
+      const key = getBudgetMonthStatusKey();
+      localStorage.setItem(key, JSON.stringify(map || {}));
+    }
+
+    function renderBudget() {
+      const monthLabel = document.getElementById('budgetMonthLabel');
+      if (monthLabel) {
+        monthLabel.textContent = `${MONTH_NAMES[state.currentMonth]} de ${state.currentYear}`;
+      }
+
+      if (!state.budgetItems) state.budgetItems = [];
+
+      const statusMap = loadBudgetMonthStatus();
+
+      const incomes = state.budgetItems.filter(i => i.type === 'Entrada');
+      const expenses = state.budgetItems.filter(i => i.type === 'Saída');
+
+      let totalIncome = 0;
+      let totalExpense = 0;
+      let paidExpense = 0;
+      let paidCount = 0;
+
+      incomes.forEach(i => { totalIncome += (i.amount || 0); });
+      expenses.forEach(i => {
+        totalExpense += (i.amount || 0);
+        if (statusMap[i.id]?.paid) {
+          paidExpense += (i.amount || 0);
+          paidCount++;
+        }
+      });
+
+      const freeBalance = totalIncome - totalExpense;
+      const committedRate = totalIncome > 0 ? Math.min(999, Math.round((totalExpense / totalIncome) * 100)) : 0;
+      const progressPct = totalExpense > 0 ? Math.min(100, Math.round((paidExpense / totalExpense) * 100)) : 0;
+
+      // Atualiza KPIs
+      const kpiInc = document.getElementById('budgetKpiIncome');
+      const kpiExp = document.getElementById('budgetKpiExpense');
+      const kpiBal = document.getElementById('budgetKpiBalance');
+      const kpiRate = document.getElementById('budgetKpiRate');
+
+      if (kpiInc) kpiInc.textContent = formatBRL(totalIncome);
+      if (kpiExp) kpiExp.textContent = formatBRL(totalExpense);
+      if (kpiBal) {
+        kpiBal.textContent = formatBRL(freeBalance);
+        kpiBal.className = `budget-kpi-value ${freeBalance >= 0 ? 'income' : 'expense'}`;
+      }
+      if (kpiRate) kpiRate.textContent = `${committedRate}%`;
+
+      // Atualiza Barra de Progresso
+      const progFill = document.getElementById('budgetProgressFill');
+      const progText = document.getElementById('budgetProgressText');
+      if (progFill) progFill.style.width = `${progressPct}%`;
+      if (progText) {
+        progText.textContent = `${formatBRL(paidExpense)} de ${formatBRL(totalExpense)} pagos (${progressPct}%) — ${paidCount} de ${expenses.length} contas`;
+      }
+
+      // Badges nos cabeçalhos das listas
+      const incBadge = document.getElementById('budgetIncomeTotalBadge');
+      const expBadge = document.getElementById('budgetExpenseTotalBadge');
+      if (incBadge) incBadge.textContent = formatBRL(totalIncome);
+      if (expBadge) expBadge.textContent = formatBRL(totalExpense);
+
+      // Renderiza Receitas
+      const incList = document.getElementById('budgetIncomeList');
+      if (incList) {
+        if (incomes.length === 0) {
+          incList.innerHTML = `
+            <div style="text-align: center; padding: 22px 14px; color: var(--text-faint); font-size: 0.86rem; border: 1px dashed var(--border-subtle); border-radius: var(--radius-sm);">
+              <i data-lucide="inbox" style="width: 32px; height: 32px; margin-bottom: 6px; opacity: 0.5;"></i>
+              <div>Nenhuma renda ou entrada fixa cadastrada. Toque em "+ Adicionar Renda".</div>
+            </div>
+          `;
+        } else {
+          incList.innerHTML = incomes.map(item => {
+            const isReceived = !!statusMap[item.id]?.paid;
+            return `
+              <div class="budget-item-card ${isReceived ? 'is-paid' : ''}">
+                <div class="budget-item-info">
+                  <div class="budget-item-title-row">
+                    <span class="budget-item-title">${escapeHTML(item.name)}</span>
+                    <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Salário')}</span>
+                    ${item.recurring ? '<span style="font-size: 0.7rem; color: var(--color-balance); font-weight: 700;">🔄 Mensal</span>' : ''}
+                  </div>
+                  <div class="budget-item-meta">
+                    <span style="font-family: var(--font-mono); font-weight: 700; color: var(--color-income); font-size: 0.92rem;">+ ${formatBRL(item.amount)}</span>
+                    ${item.dueDay ? `<span>• Previsão dia ${item.dueDay}</span>` : ''}
+                  </div>
+                </div>
+                <div class="budget-item-actions">
+                  <button type="button" class="budget-status-btn ${isReceived ? 'paid' : 'pending'}" onclick="toggleBudgetStatus('${item.id}')" title="Alternar status de recebimento">
+                    <i data-lucide="${isReceived ? 'check-circle' : 'clock'}" style="width: 13px; height: 13px;"></i>
+                    <span>${isReceived ? 'Recebido' : 'Pendente'}</span>
+                  </button>
+                  <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar automaticamente no Extrato deste mês">
+                    <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
+                  </button>
+                  <button type="button" class="budget-action-btn" onclick="openBudgetModal('Entrada', '${item.id}')" title="Editar este item">
+                    <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                  </button>
+                  <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
+                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // Renderiza Despesas
+      const expList = document.getElementById('budgetExpenseList');
+      if (expList) {
+        if (expenses.length === 0) {
+          expList.innerHTML = `
+            <div style="text-align: center; padding: 22px 14px; color: var(--text-faint); font-size: 0.86rem; border: 1px dashed var(--border-subtle); border-radius: var(--radius-sm);">
+              <i data-lucide="inbox" style="width: 32px; height: 32px; margin-bottom: 6px; opacity: 0.5;"></i>
+              <div>Nenhuma despesa ou conta fixa cadastrada. Toque em "+ Adicionar Despesa".</div>
+            </div>
+          `;
+        } else {
+          // Ordena por dia de vencimento
+          const sortedExpenses = [...expenses].sort((a, b) => (a.dueDay || 99) - (b.dueDay || 99));
+
+          expList.innerHTML = sortedExpenses.map(item => {
+            const isPaid = !!statusMap[item.id]?.paid;
+            return `
+              <div class="budget-item-card ${isPaid ? 'is-paid' : ''}">
+                <div class="budget-item-info">
+                  <div class="budget-item-title-row">
+                    <span class="budget-item-title">${escapeHTML(item.name)}</span>
+                    <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Outros')}</span>
+                    ${item.recurring ? '<span style="font-size: 0.7rem; color: var(--color-balance); font-weight: 700;">🔄 Mensal</span>' : ''}
+                  </div>
+                  <div class="budget-item-meta">
+                    <span style="font-family: var(--font-mono); font-weight: 700; color: var(--color-expense); font-size: 0.92rem;">- ${formatBRL(item.amount)}</span>
+                    ${item.dueDay ? `<span>• Vence dia ${item.dueDay}</span>` : ''}
+                  </div>
+                </div>
+                <div class="budget-item-actions">
+                  <button type="button" class="budget-status-btn ${isPaid ? 'paid' : 'pending'}" onclick="toggleBudgetStatus('${item.id}')" title="Alternar status de pagamento">
+                    <i data-lucide="${isPaid ? 'check-circle' : 'clock'}" style="width: 13px; height: 13px;"></i>
+                    <span>${isPaid ? 'Pago' : 'Pendente'}</span>
+                  </button>
+                  <button type="button" class="budget-action-btn quick-post" onclick="postBudgetItemToTransactions('${item.id}')" title="Lançar automaticamente no Extrato deste mês">
+                    <i data-lucide="file-plus" style="width: 15px; height: 15px;"></i>
+                  </button>
+                  <button type="button" class="budget-action-btn" onclick="openBudgetModal('Saída', '${item.id}')" title="Editar este item">
+                    <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                  </button>
+                  <button type="button" class="budget-action-btn danger" onclick="deleteBudgetItem('${item.id}')" title="Excluir este item">
+                    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      lucide.createIcons();
+    }
+
+    function setBudgetFormType(type) {
+      state.budgetFormType = type;
+      const btnSaida = document.getElementById('btnBudgetTypeSaida');
+      const btnEntrada = document.getElementById('btnBudgetTypeEntrada');
+      if (type === 'Saída') {
+        btnSaida.classList.add('active');
+        btnEntrada.classList.remove('active');
+      } else {
+        btnEntrada.classList.add('active');
+        btnSaida.classList.remove('active');
+      }
+      populateBudgetCategorySelect(type);
+    }
+
+    function populateBudgetCategorySelect(type, selectedCategory = '') {
+      const select = document.getElementById('budgetCategory');
+      if (!select) return;
+      const cats = getCategories(type);
+      select.innerHTML = cats.map(c => `
+        <option value="${escapeHTML(c)}" ${c === selectedCategory ? 'selected' : ''}>${escapeHTML(c)}</option>
+      `).join('');
+      if (selectedCategory && !cats.includes(selectedCategory)) {
+        const opt = document.createElement('option');
+        opt.value = selectedCategory;
+        opt.textContent = selectedCategory;
+        opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    function openBudgetModal(type = 'Saída', itemId = null) {
+      const modal = document.getElementById('budgetModal');
+      const titleEl = document.getElementById('budgetModalTitle');
+      const idInput = document.getElementById('budgetItemId');
+      const nameInput = document.getElementById('budgetName');
+      const amountInput = document.getElementById('budgetAmount');
+      const dueDayInput = document.getElementById('budgetDueDay');
+      const recurringInput = document.getElementById('budgetRecurring');
+
+      if (itemId) {
+        const item = state.budgetItems.find(i => i.id === itemId);
+        if (item) {
+          titleEl.innerHTML = `<i data-lucide="pencil" style="color: var(--color-balance);"></i> <span>Editar Item de Orçamento</span>`;
+          idInput.value = item.id;
+          nameInput.value = item.name;
+          amountInput.value = (item.amount || 0).toFixed(2).replace('.', ',');
+          dueDayInput.value = item.dueDay || '';
+          recurringInput.checked = item.recurring !== false;
+          setBudgetFormType(item.type);
+          populateBudgetCategorySelect(item.type, item.category);
+        }
+      } else {
+        titleEl.innerHTML = `<i data-lucide="wallet-cards" style="color: var(--color-income);"></i> <span>Novo Item de Orçamento</span>`;
+        idInput.value = '';
+        nameInput.value = '';
+        amountInput.value = '';
+        dueDayInput.value = '';
+        recurringInput.checked = true;
+        setBudgetFormType(type);
+      }
+
+      modal.classList.add('open');
+      pushModalState('budgetModal');
+      lucide.createIcons();
+    }
+
+    function closeBudgetModal(fromPopState = false) {
+      document.getElementById('budgetModal').classList.remove('open');
+      popModalState('budgetModal', fromPopState);
+    }
+
+    function saveBudgetItem(e) {
+      e.preventDefault();
+      const id = document.getElementById('budgetItemId').value;
+      const name = document.getElementById('budgetName').value.trim();
+      const rawAmount = document.getElementById('budgetAmount').value;
+      const amount = parseBRL(rawAmount);
+      const category = document.getElementById('budgetCategory').value;
+      const dueDayVal = document.getElementById('budgetDueDay').value;
+      const dueDay = dueDayVal ? parseInt(dueDayVal, 10) : null;
+      const recurring = document.getElementById('budgetRecurring').checked;
+      const type = state.budgetFormType;
+
+      if (!name) {
+        showToast('Informe o nome do item / conta!', 'error');
+        return;
+      }
+      if (amount <= 0) {
+        showToast('Informe um valor maior que zero!', 'error');
+        return;
+      }
+
+      if (id) {
+        const idx = state.budgetItems.findIndex(i => i.id === id);
+        if (idx >= 0) {
+          state.budgetItems[idx] = {
+            ...state.budgetItems[idx],
+            name,
+            type,
+            amount,
+            category,
+            dueDay,
+            recurring
+          };
+          showToast('Item de orçamento atualizado!', 'success');
+        }
+      } else {
+        const newItem = {
+          id: `b_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          name,
+          type,
+          amount,
+          category,
+          dueDay,
+          recurring
+        };
+        state.budgetItems.push(newItem);
+        showToast('Item adicionado ao orçamento!', 'success');
+      }
+
+      saveBudget();
+      renderBudget();
+      closeBudgetModal();
+    }
+
+    function deleteBudgetItem(id) {
+      const item = state.budgetItems.find(i => i.id === id);
+      if (!item) return;
+      if (!confirm(`Deseja realmente remover "${item.name}" do orçamento?`)) return;
+
+      state.budgetItems = state.budgetItems.filter(i => i.id !== id);
+      saveBudget();
+      renderBudget();
+      showToast('Item removido do orçamento!', 'info');
+    }
+
+    function toggleBudgetStatus(id) {
+      const statusMap = loadBudgetMonthStatus();
+      const current = !!statusMap[id]?.paid;
+      statusMap[id] = {
+        ...statusMap[id],
+        paid: !current,
+        toggledAt: new Date().toISOString()
+      };
+      saveBudgetMonthStatus(statusMap);
+      renderBudget();
+      showToast(!current ? 'Item marcado como Pago / Recebido!' : 'Item marcado como Pendente', 'info');
+    }
+
+    async function postBudgetItemToTransactions(id) {
+      const item = state.budgetItems.find(i => i.id === id);
+      if (!item) return;
+
+      // Monta data padrão para o lançamento baseado no vencimento e no mês corrente
+      const maxDaysInMonth = new Date(state.currentYear, state.currentMonth + 1, 0).getDate();
+      let day = item.dueDay ? Math.min(item.dueDay, maxDaysInMonth) : new Date().getDate();
+      day = Math.min(day, maxDaysInMonth);
+
+      const mStr = String(state.currentMonth + 1).padStart(2, '0');
+      const dStr = String(day).padStart(2, '0');
+      const isoDate = `${state.currentYear}-${mStr}-${dStr}`;
+      const formattedDate = `${dStr}/${mStr}/${state.currentYear}`;
+
+      if (!confirm(`Deseja lançar "${item.name}" de ${formatBRL(item.amount)} no Extrato de ${MONTH_NAMES[state.currentMonth]} na data ${formattedDate}?`)) {
+        return;
+      }
+
+      const newTx = {
+        id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        date: isoDate,
+        type: item.type,
+        category: item.category || (item.type === 'Entrada' ? 'Salário' : 'Outros'),
+        description: `Orçamento: ${item.name}`,
+        amount: item.amount,
+        bank: '',
+        fitid: ''
+      };
+
+      state.transactions.unshift(newTx);
+      saveLocal();
+
+      // Marca o item como pago no orçamento automaticamente
+      const statusMap = loadBudgetMonthStatus();
+      statusMap[id] = {
+        ...statusMap[id],
+        paid: true,
+        postedTxId: newTx.id,
+        toggledAt: new Date().toISOString()
+      };
+      saveBudgetMonthStatus(statusMap);
+
+      renderUI();
+
+      if (state.supabase) {
+        syncTransactionToCloud(newTx).catch(err => console.warn('[Cloud] Falha ao sincronizar lançamento do orçamento:', err));
+      }
+
+      showToast(`Lançamento de ${formatBRL(item.amount)} registrado com sucesso no Extrato!`, 'success');
     }
   </script>
 </body>
