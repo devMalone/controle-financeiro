@@ -474,7 +474,11 @@
           <input type="file" accept=".json" style="display: none;" onchange="importFromJSON(event)">
         </label>
 
-        <button type="button" class="type-btn" style="color: var(--color-expense);" onclick="restoreOriginalSpreadsheet()">
+        <button type="button" class="type-btn" style="color: var(--color-expense); border-color: rgba(244, 63, 94, 0.4);" onclick="clearAllData()">
+          <i data-lucide="trash-2"></i> Zerar Toda a Base (Começar do Zero)
+        </button>
+
+        <button type="button" class="type-btn" style="color: var(--text-faint);" onclick="restoreOriginalSpreadsheet()">
           <i data-lucide="rotate-ccw"></i> Restaurar Dados Originais da Planilha (2024)
         </button>
       </div>
@@ -489,200 +493,7 @@
 
 ﻿  <!-- App Script -->
   <script>
-    const DEFAULT_SPREADSHEET_DATA = [
-  {
-    "id": "tx-001",
-    "date": "2024-10-08",
-    "type": "Entrada",
-    "category": "Salário",
-    "description": "R$2.500,00 - FGTS descontado",
-    "amount": 2296.0
-  },
-  {
-    "id": "tx-002",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Fatura Cartão",
-    "description": "",
-    "amount": 785.96
-  },
-  {
-    "id": "tx-003",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Pix Anderson",
-    "description": "Parcela 6/8",
-    "amount": 200.0
-  },
-  {
-    "id": "tx-004",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Internet",
-    "description": "R$109,90 - Desconto",
-    "amount": 99.9
-  },
-  {
-    "id": "tx-005",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Parcela CNH",
-    "description": "Última parcela da carta",
-    "amount": 388.0
-  },
-  {
-    "id": "tx-006",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Caixinha Faculdade",
-    "description": "",
-    "amount": 50.0
-  },
-  {
-    "id": "tx-007",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Juliana Bofi - Clínica Dentista",
-    "description": "Última parcela da clínica",
-    "amount": 320.0
-  },
-  {
-    "id": "tx-008",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Investimento CDB",
-    "description": "",
-    "amount": 330.0
-  },
-  {
-    "id": "tx-009",
-    "date": "2024-10-08",
-    "type": "Saída",
-    "category": "Mercado",
-    "description": "Horário de janta trabalho",
-    "amount": 5.5
-  },
-  {
-    "id": "tx-010",
-    "date": "2024-10-09",
-    "type": "Saída",
-    "category": "Cantina Microlins",
-    "description": "Horário de janta trabalho",
-    "amount": 2.5
-  },
-  {
-    "id": "tx-011",
-    "date": "2024-10-09",
-    "type": "Saída",
-    "category": "Cantina Microlins",
-    "description": "Horário de janta trabalho",
-    "amount": 2.0
-  },
-  {
-    "id": "tx-012",
-    "date": "2024-10-10",
-    "type": "Saída",
-    "category": "Mercado",
-    "description": "Café da manhã",
-    "amount": 28.28
-  },
-  {
-    "id": "tx-013",
-    "date": "2024-10-11",
-    "type": "Saída",
-    "category": "Cabelo",
-    "description": "Corte de cabelo",
-    "amount": 50.0
-  },
-  {
-    "id": "tx-014",
-    "date": "2024-10-11",
-    "type": "Entrada",
-    "category": "Resgate RDB",
-    "description": "Caixinha da faculdade",
-    "amount": 354.49
-  },
-  {
-    "id": "tx-015",
-    "date": "2024-10-11",
-    "type": "Saída",
-    "category": "Fatura Cartão",
-    "description": "Adiantei pagar essa fatura que ainda não fechou",
-    "amount": 371.76
-  },
-  {
-    "id": "tx-016",
-    "date": "2024-10-14",
-    "type": "Saída",
-    "category": "Outros",
-    "description": "Pix pra testar se funcionava",
-    "amount": 1.0
-  },
-  {
-    "id": "tx-017",
-    "date": "2024-10-18",
-    "type": "Saída",
-    "category": "Mercado",
-    "description": "São Paulo - Algo para comer",
-    "amount": 11.0
-  },
-  {
-    "id": "tx-018",
-    "date": "2024-10-22",
-    "type": "Saída",
-    "category": "Cantina Microlins",
-    "description": "",
-    "amount": 2.5
-  },
-  {
-    "id": "tx-019",
-    "date": "2024-11-08",
-    "type": "Entrada",
-    "category": "Salário",
-    "description": "",
-    "amount": 2296.0
-  },
-  {
-    "id": "tx-020",
-    "date": "2024-11-08",
-    "type": "Saída",
-    "category": "Outros",
-    "description": "Pix do Anderson. 07º parcela",
-    "amount": 200.0
-  },
-  {
-    "id": "tx-021",
-    "date": "2024-11-08",
-    "type": "Saída",
-    "category": "Fatura Cartão",
-    "description": "Fatura fechada do mês de outubro",
-    "amount": 1975.23
-  },
-  {
-    "id": "tx-022",
-    "date": "2024-11-08",
-    "type": "Saída",
-    "category": "Internet",
-    "description": "",
-    "amount": 99.9
-  },
-  {
-    "id": "tx-023",
-    "date": "2024-11-05",
-    "type": "Entrada",
-    "category": "Serviço Extra",
-    "description": "Desbloqueio de celular",
-    "amount": 50.0
-  },
-  {
-    "id": "tx-024",
-    "date": "2024-11-09",
-    "type": "Saída",
-    "category": "Cantina Microlins",
-    "description": "",
-    "amount": 2.15
-  }
-];
+    const DEFAULT_SPREADSHEET_DATA = [];
 
     const DEFAULT_CATEGORIES = {
       'Entrada': ['Salário', 'Resgate RDB', 'Serviço Extra', 'Investimento', 'Outros'],
@@ -691,8 +502,8 @@
 
     let state = {
       transactions: [],
-      currentMonth: 9,
-      currentYear: 2024,
+      currentMonth: new Date().getMonth(),
+      currentYear: new Date().getFullYear(),
       filterType: 'todos',
       isBalanceHidden: false,
       theme: 'dark',
@@ -719,27 +530,55 @@
 
       state.isBalanceHidden = localStorage.getItem('financas_hide_balance') === 'true';
 
+      const now = new Date();
+      state.currentMonth = now.getMonth();
+      state.currentYear = now.getFullYear();
+
       const savedTx = localStorage.getItem('financas_transactions');
       if (savedTx) {
         try {
-          state.transactions = JSON.parse(savedTx);
+          const parsed = JSON.parse(savedTx);
+          // Auto-limpar se for apenas o mock antigo de 2024
+          const isOldMock = parsed.length > 0 && parsed.every(t => t.id && t.id.startsWith('tx-0'));
+          if (isOldMock && !localStorage.getItem('financas_cleared_v1')) {
+            state.transactions = [];
+            localStorage.setItem('financas_cleared_v1', 'true');
+            saveLocal();
+          } else {
+            state.transactions = parsed;
+          }
         } catch(e) {
-          state.transactions = DEFAULT_SPREADSHEET_DATA;
+          state.transactions = [];
         }
       } else {
-        state.transactions = DEFAULT_SPREADSHEET_DATA;
+        state.transactions = [];
+        localStorage.setItem('financas_cleared_v1', 'true');
         saveLocal();
       }
+    }
 
-      const has2024 = state.transactions.some(t => t.date.startsWith('2024-10'));
-      if (has2024) {
-        state.currentMonth = 9;
-        state.currentYear = 2024;
-      } else {
-        const now = new Date();
-        state.currentMonth = now.getMonth();
-        state.currentYear = now.getFullYear();
+    async function clearAllData() {
+      if (!confirm('ATENÇÃO: Deseja realmente zerar todos os lançamentos para começar do zero?')) return;
+      state.transactions = [];
+      localStorage.setItem('financas_cleared_v1', 'true');
+      saveLocal();
+
+      if (state.supabase) {
+        try {
+          showToast('Limpando dados da nuvem...', 'info');
+          await state.supabase.from('transacoes').delete().neq('id', '___');
+          showToast('Base da nuvem e local zeradas!', 'success');
+        } catch(err) {
+          console.warn('Erro ao limpar nuvem:', err);
+        }
       }
+
+      const now = new Date();
+      state.currentMonth = now.getMonth();
+      state.currentYear = now.getFullYear();
+      renderUI();
+      closeBackupModal();
+      showToast('Base de dados zerada com sucesso! Pronto para começar.', 'success');
     }
 
     function saveLocal() {
