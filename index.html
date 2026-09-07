@@ -558,35 +558,121 @@
       display: flex;
       gap: 4px;
     }
-    .amount-input { width: 100%; height: 60px; background: var(--bg-surface-elevated); border: 2px solid var(--border-subtle); border-radius: var(--radius-md); padding: 10px 16px; font-family: var(--font-mono); font-size: 26px !important; font-weight: 700; color: var(--text-main); outline: none; }
-    .amount-input:focus { border-color: var(--color-income); }
-    .form-input { width: 100%; min-height: 48px; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 16px !important; color: var(--text-main); outline: none; font-family: inherit; }
-    .form-input:focus { border-color: var(--color-income); }
+    .amount-hero-wrapper {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface-elevated);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 6px 16px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: text;
+    }
+    .amount-hero-wrapper:focus-within {
+      border-color: var(--color-expense);
+      box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.15);
+      background: var(--bg-surface-hover);
+    }
+    .amount-hero-wrapper.is-entrada:focus-within {
+      border-color: var(--color-income);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+    }
+    .amount-hero-badge {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-expense);
+      margin-right: 10px;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    .amount-hero-badge.is-entrada {
+      color: var(--color-income);
+    }
+    .amount-hero-input {
+      flex: 1;
+      height: 56px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 1.85rem !important;
+      font-weight: 800;
+      color: var(--text-main);
+      min-width: 0;
+      letter-spacing: -0.02em;
+    }
+    .amount-hero-input::placeholder {
+      color: var(--text-faint);
+      opacity: 0.5;
+    }
+    .form-input { 
+      width: 100%; 
+      height: 52px; 
+      min-height: 52px; 
+      background: var(--bg-surface-elevated); 
+      border: 1.5px solid var(--border-subtle); 
+      border-radius: 12px; 
+      padding: 12px 16px; 
+      font-size: 16px !important; 
+      font-weight: 500;
+      color: var(--text-main); 
+      outline: none; 
+      font-family: inherit; 
+      transition: all 0.2s ease; 
+    }
+    .form-input:focus { 
+      border-color: var(--color-income); 
+      background: var(--bg-surface-hover);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+    }
     .category-badges-scroll { 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 6px; 
-      max-height: 140px; 
+      gap: 8px; 
+      max-height: 160px; 
       overflow-y: auto; 
-      padding: 8px; 
+      padding: 10px; 
       background: var(--bg-surface-elevated); 
-      border-radius: var(--radius-sm); 
+      border-radius: var(--radius-md); 
       border: 1px solid var(--border-subtle);
+      -webkit-overflow-scrolling: touch;
     }
     .cat-chip { 
-      padding: 6px 11px; 
+      min-height: 38px;
+      padding: 8px 14px; 
       border-radius: var(--radius-full); 
       background: var(--bg-surface); 
-      border: 1px solid var(--border-subtle); 
+      border: 1.5px solid var(--border-subtle); 
       color: var(--text-muted); 
-      font-size: 0.78rem; 
+      font-size: 0.88rem; 
       font-weight: 600; 
       cursor: pointer; 
-      transition: all 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
+      touch-action: manipulation;
     }
     .cat-chip:active { transform: scale(0.95); }
-    .cat-chip.selected { background: var(--color-income); color: #ffffff; border-color: var(--color-income); }
+    .cat-chip:hover {
+      background: var(--bg-surface-hover);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+    .cat-chip.selected { 
+      background: var(--color-income); 
+      color: #ffffff; 
+      border-color: var(--color-income);
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+    .cat-chip.selected.is-saida {
+      background: var(--color-expense);
+      border-color: var(--color-expense);
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.35);
+    }
     .btn-submit { width: 100%; height: 52px; border-radius: var(--radius-md); background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; border: none; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin-top: 12px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); }
     .btn-submit:active { transform: scale(0.98); }
     .app-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-30px); background: var(--bg-surface-elevated); border: 1px solid var(--border-active); color: var(--text-main); padding: 12px 20px; border-radius: var(--radius-full); font-size: 0.9rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 999; opacity: 0; pointer-events: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
@@ -903,38 +989,59 @@
           </button>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="txAmount">Valor (R$)</label>
-          <input type="text" inputmode="decimal" class="amount-input" id="txAmount" placeholder="0,00" required oninput="formatCurrencyInput(this)">
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" for="txAmount">
+            <i data-lucide="circle-dollar-sign" style="width: 17px; height: 17px; color: var(--color-income);"></i>
+            <span>Valor da Movimentação</span>
+          </label>
+          <div class="amount-hero-wrapper" id="amountHeroWrapper" onclick="document.getElementById('txAmount').focus()">
+            <span class="amount-hero-badge" id="amountHeroBadge">R$</span>
+            <input type="text" inputmode="numeric" class="amount-hero-input" id="txAmount" placeholder="0,00" required oninput="formatCurrencyInput(this)" autocomplete="off">
+          </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="txDate">Data da Movimentação</label>
+          <label class="form-label" for="txDate">
+            <i data-lucide="calendar" style="width: 16px; height: 16px;"></i>
+            <span>Data da Movimentação</span>
+          </label>
           <input type="date" class="form-input" id="txDate" required>
         </div>
 
         <div class="form-group">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <label class="form-label" style="margin-bottom: 0;">Categoria Rápida</label>
-            <button type="button" class="btn-action-small" style="width: auto; padding: 2px 8px; font-size: 0.76rem; color: var(--color-income); gap: 4px;" onclick="openCategoryModal(state.formType)" title="Adicionar ou editar categorias">
-              <i data-lucide="settings-2"></i> Personalizar
+            <label class="form-label" style="margin-bottom: 0;">
+              <i data-lucide="tags" style="width: 16px; height: 16px;"></i>
+              <span>Categoria Rápida</span>
+            </label>
+            <button type="button" class="btn-action-small" style="width: auto; padding: 4px 10px; font-size: 0.78rem; font-weight: 700; color: var(--color-income); gap: 5px; background: var(--color-income-bg); border-radius: 6px;" onclick="openCategoryModal(state.formType)" title="Adicionar ou editar categorias">
+              <i data-lucide="settings-2"></i> Editar
             </button>
           </div>
           <div class="category-badges-scroll" id="categoryChips"></div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="txCategoryCustom">Ou Categoria Personalizada</label>
-          <input type="text" class="form-input" id="txCategoryCustom" placeholder="Ex: Mercado, Combustível, Farmácia...">
+          <label class="form-label" for="txCategoryCustom">
+            <i data-lucide="edit-2" style="width: 16px; height: 16px;"></i>
+            <span>Ou Categoria Personalizada</span>
+          </label>
+          <input type="text" class="form-input" id="txCategoryCustom" placeholder="Ex: Mercado, Combustível, Farmácia..." autocomplete="off" autocapitalize="words">
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="txDesc">Descrição / Observação (Opcional)</label>
-          <input type="text" class="form-input" id="txDesc" placeholder="Ex: Parcela 6/8, Almoço...">
+          <label class="form-label" for="txDesc">
+            <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+            <span>Descrição / Observação (Opcional)</span>
+          </label>
+          <input type="text" class="form-input" id="txDesc" placeholder="Ex: Parcela 6/8, Almoço de domingo..." autocomplete="off" autocapitalize="sentences" spellcheck="true">
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="txBank">Conta / Banco (Opcional)</label>
+          <label class="form-label" for="txBank">
+            <i data-lucide="landmark" style="width: 16px; height: 16px;"></i>
+            <span>Conta / Banco (Opcional)</span>
+          </label>
           <select class="form-input" id="txBank">
             <option value="">Nenhum (Lançamento Manual)</option>
             <option value="Nubank">Nubank</option>
@@ -1192,7 +1299,81 @@
       isOnline: false
     };
 
+    // ===== GERENCIADOR DE HISTÓRICO & BOTÃO VOLTAR DO CELULAR =====
+    let activeModalStack = [];
+    let isNavigatingHistory = false;
+    let lastBackPressTime = 0;
+
+    function setupNavigationHistory() {
+      if (!history.state || !history.state.appRoot) {
+        history.replaceState({ appRoot: true, step: 0 }, '');
+        history.pushState({ appRoot: true, step: 1 }, '');
+      }
+
+      window.addEventListener('popstate', (e) => {
+        if (isNavigatingHistory) return;
+
+        // 1. Se houver algum modal aberto na tela, fecha o modal mais recente!
+        const openModals = Array.from(document.querySelectorAll('.modal-backdrop.open'));
+        if (openModals.length > 0) {
+          const topModal = openModals[openModals.length - 1];
+          const id = topModal.id;
+          
+          isNavigatingHistory = true;
+          if (id === 'txModal') closeTxModal(true);
+          else if (id === 'categoryModal') closeCategoryModal(true);
+          else if (id === 'importModal') closeImportModal(true);
+          else if (id === 'backupModal') closeBackupModal(true);
+          else if (id === 'syncModal') closeSyncModal(true);
+          else topModal.classList.remove('open');
+
+          activeModalStack = activeModalStack.filter(m => m !== id);
+          setTimeout(() => { isNavigatingHistory = false; }, 80);
+          return;
+        }
+
+        // 2. Se nenhum modal estiver aberto: confirmação de saída estilo app nativo
+        const now = Date.now();
+        if (now - lastBackPressTime < 2200) {
+          showToast('Até logo!', 'info');
+          history.back();
+        } else {
+          lastBackPressTime = now;
+          history.pushState({ appRoot: true, step: 1 }, '');
+          showToast('Pressione voltar novamente para sair do aplicativo', 'info');
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
+          const id = e.target.id;
+          if (id === 'txModal') closeTxModal();
+          else if (id === 'categoryModal') closeCategoryModal();
+          else if (id === 'importModal') closeImportModal();
+          else if (id === 'backupModal') closeBackupModal();
+          else if (id === 'syncModal') closeSyncModal();
+        }
+      });
+    }
+
+    function pushModalState(modalId) {
+      if (!activeModalStack.includes(modalId)) {
+        activeModalStack.push(modalId);
+      }
+      history.pushState({ modalId: modalId }, '');
+    }
+
+    function popModalState(modalId, fromPopState = false) {
+      activeModalStack = activeModalStack.filter(m => m !== modalId);
+      if (!fromPopState && !isNavigatingHistory && history.state && history.state.modalId === modalId) {
+        isNavigatingHistory = true;
+        history.back();
+        setTimeout(() => { isNavigatingHistory = false; }, 80);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      setupNavigationHistory();
       loadStorage();
       setupSupabase();
       renderUI();
@@ -1718,24 +1899,41 @@
 
       setFormType('Saída');
       document.getElementById('txModal').classList.add('open');
-      document.getElementById('txAmount').focus();
+      pushModalState('txModal');
     }
 
-    function closeTxModal() {
+    function closeTxModal(fromPopState = false) {
       document.getElementById('txModal').classList.remove('open');
+      popModalState('txModal', fromPopState);
     }
 
     function setFormType(type) {
       state.formType = type;
       const btnSaida = document.getElementById('btnTypeSaida');
       const btnEntrada = document.getElementById('btnTypeEntrada');
+      const amountBadge = document.getElementById('amountHeroBadge');
+      const amountWrapper = document.getElementById('amountHeroWrapper');
 
       if (type === 'Saída') {
         btnSaida.classList.add('active');
         btnEntrada.classList.remove('active');
+        if (amountBadge) {
+          amountBadge.classList.remove('is-entrada');
+          amountBadge.style.color = 'var(--color-expense)';
+        }
+        if (amountWrapper) {
+          amountWrapper.classList.remove('is-entrada');
+        }
       } else {
         btnEntrada.classList.add('active');
         btnSaida.classList.remove('active');
+        if (amountBadge) {
+          amountBadge.classList.add('is-entrada');
+          amountBadge.style.color = 'var(--color-income)';
+        }
+        if (amountWrapper) {
+          amountWrapper.classList.add('is-entrada');
+        }
       }
 
       renderCategoryChips(type);
@@ -1744,10 +1942,14 @@
     function renderCategoryChips(type) {
       const chipsContainer = document.getElementById('categoryChips');
       const cats = getCategories(type);
-      state.selectedCategory = cats[0] || 'Outros';
+      if (!state.selectedCategory || !cats.includes(state.selectedCategory)) {
+        state.selectedCategory = cats[0] || 'Outros';
+      }
+
+      const isSaida = type === 'Saída';
 
       chipsContainer.innerHTML = cats.map(cat => `
-        <button type="button" class="cat-chip ${cat === state.selectedCategory ? 'selected' : ''}" onclick="selectCategory('${escapeHTML(cat)}')">
+        <button type="button" class="cat-chip ${cat === state.selectedCategory ? ('selected' + (isSaida ? ' is-saida' : '')) : ''}" onclick="selectCategory('${escapeHTML(cat)}')">
           ${escapeHTML(cat)}
         </button>
       `).join('');
@@ -1759,11 +1961,13 @@
       categoryModalType = initialType || state.formType || 'Saída';
       switchCategoryModalType(categoryModalType);
       document.getElementById('categoryModal').classList.add('open');
+      pushModalState('categoryModal');
       lucide.createIcons();
     }
 
-    function closeCategoryModal() {
+    function closeCategoryModal(fromPopState = false) {
       document.getElementById('categoryModal').classList.remove('open');
+      popModalState('categoryModal', fromPopState);
       renderCategoryChips(state.formType);
       renderUI();
     }
@@ -1913,8 +2117,15 @@
 
     function selectCategory(cat) {
       state.selectedCategory = cat;
+      const isSaida = state.formType === 'Saída';
       document.querySelectorAll('.cat-chip').forEach(c => {
-        c.classList.toggle('selected', c.textContent.trim() === cat);
+        const isMatch = c.textContent.trim() === cat;
+        c.classList.toggle('selected', isMatch);
+        if (isMatch && isSaida) {
+          c.classList.add('is-saida');
+        } else {
+          c.classList.remove('is-saida');
+        }
       });
       document.getElementById('txCategoryCustom').value = '';
     }
@@ -1993,6 +2204,7 @@
       }
 
       document.getElementById('txModal').classList.add('open');
+      pushModalState('txModal');
     }
 
     async function deleteTransaction(id) {
@@ -2049,10 +2261,12 @@
 
     function openSyncModal() {
       document.getElementById('syncModal').classList.add('open');
+      pushModalState('syncModal');
     }
 
-    function closeSyncModal() {
+    function closeSyncModal(fromPopState = false) {
       document.getElementById('syncModal').classList.remove('open');
+      popModalState('syncModal', fromPopState);
     }
 
     async function connectSupabase() {
@@ -2268,10 +2482,12 @@
 
     function openBackupModal() {
       document.getElementById('backupModal').classList.add('open');
+      pushModalState('backupModal');
     }
 
-    function closeBackupModal() {
+    function closeBackupModal(fromPopState = false) {
       document.getElementById('backupModal').classList.remove('open');
+      popModalState('backupModal', fromPopState);
     }
 
     function exportToCSV() {
@@ -2838,11 +3054,13 @@
     function openImportModal() {
       resetImportStep();
       document.getElementById('importModal').classList.add('open');
+      pushModalState('importModal');
       lucide.createIcons();
     }
 
-    function closeImportModal() {
+    function closeImportModal(fromPopState = false) {
       document.getElementById('importModal').classList.remove('open');
+      popModalState('importModal', fromPopState);
       resetImportStep();
     }
 
