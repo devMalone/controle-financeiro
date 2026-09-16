@@ -1355,6 +1355,82 @@
       font-family: var(--font-mono);
       font-weight: 700;
     }
+
+    /* ==========================================================================
+       ECOSYSTEM HUB & QUICK APP SWITCHER
+       ========================================================================== */
+    .ecosystem-app-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+      background: var(--bg-surface, rgba(255, 255, 255, 0.03));
+      border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .ecosystem-app-item:hover {
+      background: var(--bg-surface-elevated, rgba(255, 255, 255, 0.07));
+      border-color: var(--color-primary, #3b82f6);
+      transform: translateY(-1px);
+    }
+    .ecosystem-app-item.is-current {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: #10B981;
+      cursor: default;
+    }
+    .ecosystem-app-info {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .ecosystem-app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ecosystem-app-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ecosystem-app-name {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .ecosystem-app-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+    .ecosystem-app-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .badge-current-app {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10B981;
+    }
+    .badge-switch-app {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+      color: var(--text-secondary, #94a3b8);
+    }
   </style>
 </head>
 <body>
@@ -1374,6 +1450,9 @@
       </div>
 
       <div class="top-actions">
+        <button class="icon-btn" onclick="openEcosystemModal()" title="Ecossistema Antigravity (Alternar App)" aria-label="Alternar Aplicativo">
+          <i data-lucide="layout-grid"></i>
+        </button>
         <button class="icon-btn" onclick="openSyncModal()" title="Sincronização em Nuvem (Supabase)">
           <i data-lucide="cloud"></i>
         </button>
@@ -2104,6 +2183,83 @@
           <i data-lucide="check"></i> Salvar no Orçamento
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL DO ECOSSISTEMA ANTIGRAVITY (CROSS-APP SWITCHER) -->
+  <div class="modal-backdrop" id="ecosystemModal">
+    <div class="modal-box" style="max-width: 460px;">
+      <div class="modal-header">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="layout-grid" style="color: var(--color-primary);"></i>
+          <span>Ecossistema Antigravity</span>
+        </div>
+        <button class="modal-close" onclick="closeEcosystemModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <div style="padding: 16px;">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+          Selecione o utilitário para alternar rapidamente:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- RADAR DE CONCURSOS -->
+          <div class="ecosystem-app-item" onclick="navigateToApp('radar')" title="Abrir Radar de Concursos SP">
+            <div class="ecosystem-app-info">
+              <div class="ecosystem-app-icon" style="background: rgba(6, 182, 212, 0.12); color: #06B6D4; border: 1px solid rgba(6, 182, 212, 0.25);">
+                <i data-lucide="radar" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div class="ecosystem-app-texts">
+                <span class="ecosystem-app-name">Radar de Concursos SP</span>
+                <span class="ecosystem-app-desc">Editais abertos, busca inteligente IA e cronograma de provas</span>
+              </div>
+            </div>
+            <span class="ecosystem-app-badge badge-switch-app">
+              <span>Acessar</span>
+              <i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i>
+            </span>
+          </div>
+
+          <!-- CONTROLE FINANCEIRO (ATUAL) -->
+          <div class="ecosystem-app-item is-current" title="Aplicativo em uso no momento">
+            <div class="ecosystem-app-info">
+              <div class="ecosystem-app-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.35);">
+                <i data-lucide="wallet" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div class="ecosystem-app-texts">
+                <span class="ecosystem-app-name">Controle Financeiro</span>
+                <span class="ecosystem-app-desc">Orçamento mensal, parcelamentos inteligentes e tetos</span>
+              </div>
+            </div>
+            <span class="ecosystem-app-badge badge-current-app">
+              <i data-lucide="check" style="width: 11px; height: 11px;"></i>
+              <span>Atual</span>
+            </span>
+          </div>
+
+          <!-- ROTINA SEMANAL -->
+          <div class="ecosystem-app-item" onclick="navigateToApp('rotina')" title="Abrir Rotina Semanal">
+            <div class="ecosystem-app-info">
+              <div class="ecosystem-app-icon" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6; border: 1px solid rgba(139, 92, 246, 0.25);">
+                <i data-lucide="calendar-clock" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div class="ecosystem-app-texts">
+                <span class="ecosystem-app-name">Rotina Semanal</span>
+                <span class="ecosystem-app-desc">Horários ao vivo, hábitos, consistência e alertas sonoros</span>
+              </div>
+            </div>
+            <span class="ecosystem-app-badge badge-switch-app">
+              <span>Acessar</span>
+              <i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 10px 16px; background: var(--bg-surface-elevated, rgba(0,0,0,0.15)); border-top: 1px solid var(--border-subtle, rgba(255,255,255,0.06)); display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; color: var(--text-muted);">
+        <span>PWA Local-First • Offline Ready</span>
+        <span>Antigravity Ecosystem</span>
+      </div>
     </div>
   </div>
 
@@ -3773,6 +3929,51 @@
       } catch(err) {
         console.error(err);
         showToast('Falha no upload para a nuvem.', 'error');
+      }
+    }
+
+    /* ==========================================================================
+       ECOSSISTEMA ANTIGRAVITY (CROSS-APP SWITCHER)
+       ========================================================================== */
+    function openEcosystemModal() {
+      const modal = document.getElementById('ecosystemModal');
+      if (modal) {
+        modal.classList.add('open');
+        pushModalState('ecosystemModal');
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    function closeEcosystemModal(fromPopState = false) {
+      const modal = document.getElementById('ecosystemModal');
+      if (modal) {
+        modal.classList.remove('open');
+        popModalState('ecosystemModal', fromPopState);
+      }
+    }
+
+    function getEcosystemAppUrl(targetApp) {
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      if (isGitHubPages) {
+        const urls = {
+          radar: 'https://devmalone.github.io/radar-concursos/',
+          financeiro: 'https://devmalone.github.io/controle-financeiro/',
+          rotina: 'https://devmalone.github.io/rotina-semanal/'
+        };
+        return urls[targetApp] || '#';
+      }
+      const localUrls = {
+        radar: '../Radar de Concursos/index.html',
+        financeiro: '../Controle Financeiro/index.html',
+        rotina: '../Rotina Semanal/index.html'
+      };
+      return localUrls[targetApp] || '#';
+    }
+
+    function navigateToApp(targetApp) {
+      const url = getEcosystemAppUrl(targetApp);
+      if (url && url !== '#') {
+        window.location.href = url;
       }
     }
 
