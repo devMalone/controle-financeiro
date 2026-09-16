@@ -1256,6 +1256,105 @@
     .btn-micro-budget:hover {
       background: var(--color-income-bg);
     }
+    /* Installment & Recurrence Box */
+    .installment-toggle-box {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .installment-toggle-box:hover {
+      border-color: var(--border-active);
+    }
+    .installment-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .installment-checkbox-label input[type="checkbox"] {
+      display: none;
+    }
+    .installment-checkbox-custom {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      transition: all 0.2s ease;
+    }
+    .installment-checkbox-label input[type="checkbox"]:checked + .installment-checkbox-custom {
+      background: var(--color-balance-bg);
+      border-color: var(--color-balance);
+      color: var(--color-balance);
+    }
+    .installment-presets {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .inst-preset-btn {
+      flex: 1;
+      min-width: 40px;
+      height: 38px;
+      border-radius: 6px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .inst-preset-btn.active, .inst-preset-btn:hover {
+      background: var(--color-balance-bg);
+      border-color: var(--color-balance);
+      color: var(--color-balance);
+    }
+    .installment-mode-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .inst-radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .installment-preview-box {
+      background: var(--bg-primary);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .installment-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--color-balance);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -1658,6 +1757,51 @@
             <option value="Banco do Brasil">Banco do Brasil</option>
             <option value="Outro">Outro</option>
           </select>
+        </div>
+
+        <!-- SEÇÃO DE PARCELAMENTO & RECORRÊNCIA -->
+        <div class="installment-toggle-box" id="installmentToggleBox">
+          <label class="installment-checkbox-label">
+            <input type="checkbox" id="txIsInstallment" onchange="toggleInstallmentFields()">
+            <span class="installment-checkbox-custom"><i data-lucide="layers" style="width: 15px; height: 15px;"></i></span>
+            <span style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">Parcelar ou Repetir este Lançamento</span>
+          </label>
+
+          <div class="installment-fields" id="installmentFields" style="display: none; margin-top: 12px;">
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Número de Parcelas / Meses</label>
+              <div class="installment-presets">
+                <button type="button" class="inst-preset-btn active" onclick="setInstallmentCount(2)">2x</button>
+                <button type="button" class="inst-preset-btn" onclick="setInstallmentCount(3)">3x</button>
+                <button type="button" class="inst-preset-btn" onclick="setInstallmentCount(6)">6x</button>
+                <button type="button" class="inst-preset-btn" onclick="setInstallmentCount(10)">10x</button>
+                <button type="button" class="inst-preset-btn" onclick="setInstallmentCount(12)">12x</button>
+                <button type="button" class="inst-preset-btn" onclick="setInstallmentCount(24)">24x</button>
+                <input type="number" id="txInstallmentCount" min="2" max="60" value="2" class="form-input" style="width: 65px; text-align: center; height: 38px; padding: 0 4px; font-weight: 700;" oninput="onCustomInstallmentCountChange(this.value)">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">Modo do Valor Digitado</label>
+              <div class="installment-mode-group">
+                <label class="inst-radio-label">
+                  <input type="radio" name="txInstallmentMode" value="total" checked onchange="updateInstallmentPreview()">
+                  <span>Dividir valor total pelas parcelas</span>
+                </label>
+                <label class="inst-radio-label">
+                  <input type="radio" name="txInstallmentMode" value="per_installment" onchange="updateInstallmentPreview()">
+                  <span>Valor digitado é de cada parcela</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="installment-preview-box" id="installmentPreviewBox">
+              <i data-lucide="info" style="width: 16px; height: 16px; color: var(--color-balance); flex-shrink: 0; margin-top: 2px;"></i>
+              <span id="installmentPreviewText" style="font-size: 0.8rem; line-height: 1.4; color: var(--text-muted);">
+                Serão geradas 2 parcelas mensais.
+              </span>
+            </div>
+          </div>
         </div>
 
         <button type="submit" class="btn-submit">
@@ -2386,6 +2530,7 @@
               <div class="tx-row-bottom">
                 <div class="tx-meta">
                   <span class="tx-date-text">${formattedDate}</span>
+                  ${t.installmentTotal && t.installmentIndex ? `<span class="installment-chip"><i data-lucide="layers" style="width: 11px; height: 11px;"></i> ${t.installmentIndex}/${t.installmentTotal}</span>` : ''}
                   ${getBankBadgeHTML(t.bank)}
                 </div>
                 <div class="tx-actions">
@@ -2674,6 +2819,14 @@
       document.getElementById('txBank').value = '';
 
       setFormType('Saída');
+      const instBox = document.getElementById('installmentToggleBox');
+      if (instBox) instBox.style.display = 'block';
+      const chkInst = document.getElementById('txIsInstallment');
+      if (chkInst) chkInst.checked = false;
+      const fldsInst = document.getElementById('installmentFields');
+      if (fldsInst) fldsInst.style.display = 'none';
+      setInstallmentCount(2);
+
       document.getElementById('txModal').classList.add('open');
       pushModalState('txModal');
     }
@@ -2910,10 +3063,12 @@
       let val = el.value.replace(/\D/g, '');
       if (!val) {
         el.value = '';
+        updateInstallmentPreview();
         return;
       }
       val = (parseInt(val, 10) / 100).toFixed(2);
       el.value = val.replace('.', ',');
+      updateInstallmentPreview();
     }
 
     function formatDateInput(el) {
@@ -3039,6 +3194,57 @@
       }
     }
 
+    function toggleInstallmentFields() {
+      const isChecked = document.getElementById('txIsInstallment')?.checked;
+      const fields = document.getElementById('installmentFields');
+      if (fields) {
+        fields.style.display = isChecked ? 'block' : 'none';
+        if (isChecked) {
+          updateInstallmentPreview();
+          if (window.lucide) window.lucide.createIcons();
+        }
+      }
+    }
+
+    function setInstallmentCount(count) {
+      const input = document.getElementById('txInstallmentCount');
+      if (input) input.value = count;
+      document.querySelectorAll('.inst-preset-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === `${count}x`);
+      });
+      updateInstallmentPreview();
+    }
+
+    function onCustomInstallmentCountChange(val) {
+      const c = parseInt(val) || 2;
+      document.querySelectorAll('.inst-preset-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === `${c}x`);
+      });
+      updateInstallmentPreview();
+    }
+
+    function updateInstallmentPreview() {
+      const isChecked = document.getElementById('txIsInstallment')?.checked;
+      const previewText = document.getElementById('installmentPreviewText');
+      if (!isChecked || !previewText) return;
+
+      const amountVal = parseBRL(document.getElementById('txAmount')?.value || '0');
+      const count = Math.max(2, Math.min(60, parseInt(document.getElementById('txInstallmentCount')?.value) || 2));
+      const mode = document.querySelector('input[name="txInstallmentMode"]:checked')?.value || 'total';
+
+      let perParcel = 0;
+      let total = 0;
+      if (mode === 'total') {
+        total = amountVal;
+        perParcel = count > 0 ? (amountVal / count) : 0;
+      } else {
+        perParcel = amountVal;
+        total = amountVal * count;
+      }
+
+      previewText.innerHTML = `Serão geradas <strong>${count} parcelas</strong> mensais de <strong>${formatBRL(perParcel)}</strong> (Total: <strong>${formatBRL(total)}</strong>).`;
+    }
+
     async function saveTransaction(e) {
       e.preventDefault();
       const id = document.getElementById('txId').value || `tx-${Date.now()}`;
@@ -3064,6 +3270,72 @@
 
       if (amountVal <= 0) {
         showToast('Informe um valor válido maior que zero!', 'error');
+        return;
+      }
+
+      const isNew = !document.getElementById('txId').value;
+      const isInstallment = isNew && document.getElementById('txIsInstallment')?.checked;
+
+      if (isInstallment) {
+        const count = Math.max(2, Math.min(60, parseInt(document.getElementById('txInstallmentCount').value) || 2));
+        const mode = document.querySelector('input[name="txInstallmentMode"]:checked')?.value || 'total';
+
+        let installmentAmount = 0;
+        let remainder = 0;
+        if (mode === 'total') {
+          installmentAmount = Math.floor((amountVal / count) * 100) / 100;
+          remainder = Math.round((amountVal - (installmentAmount * count)) * 100) / 100;
+        } else {
+          installmentAmount = amountVal;
+        }
+
+        const installmentGroupId = `inst-${Date.now()}`;
+        const baseDateParts = dateVal.split('-').map(Number);
+        const baseYear = baseDateParts[0];
+        const baseMonth = baseDateParts[1] - 1;
+        const baseDay = baseDateParts[2];
+
+        const generatedTxs = [];
+        const nowTs = Date.now();
+
+        for (let i = 0; i < count; i++) {
+          const targetDate = new Date(baseYear, baseMonth + i, 1);
+          const targetYear = targetDate.getFullYear();
+          const targetMonth = targetDate.getMonth();
+          const maxDaysInMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
+          const actualDay = Math.min(baseDay, maxDaysInMonth);
+          const instDateStr = `${targetYear}-${String(targetMonth + 1).padStart(2, '0')}-${String(actualDay).padStart(2, '0')}`;
+
+          const thisAmount = (i === 0 && mode === 'total') ? Number((installmentAmount + remainder).toFixed(2)) : installmentAmount;
+          const baseDesc = descVal || categoryVal;
+          const instDesc = `${baseDesc} (${i + 1}/${count})`;
+
+          const instTx = {
+            id: `tx-${nowTs}-${i}`,
+            date: instDateStr,
+            type: state.formType,
+            category: categoryVal,
+            description: instDesc,
+            amount: thisAmount,
+            bank: bankVal || '',
+            installmentId: installmentGroupId,
+            installmentIndex: i + 1,
+            installmentTotal: count
+          };
+
+          generatedTxs.push(instTx);
+        }
+
+        state.transactions.unshift(...generatedTxs);
+        saveLocal();
+
+        for (const t of generatedTxs) {
+          syncTransactionToCloud(t);
+        }
+
+        closeTxModal();
+        showToast(`${count} parcelas de ${formatBRL(installmentAmount)} geradas com sucesso!`, 'success');
+        renderUI();
         return;
       }
 
@@ -3114,6 +3386,9 @@
       document.getElementById('txDesc').value = tx.description || '';
       document.getElementById('txBank').value = tx.bank || '';
 
+      const instBox = document.getElementById('installmentToggleBox');
+      if (instBox) instBox.style.display = 'none';
+
       setFormType(tx.type);
       selectCategory(tx.category);
       if (!getCategories(tx.type).includes(tx.category)) {
@@ -3125,20 +3400,38 @@
     }
 
     async function deleteTransaction(id) {
-      if (!confirm('Deseja realmente excluir este lançamento?')) return;
+      const tx = state.transactions.find(t => t.id === id);
+      if (!tx) return;
 
-      state.transactions = state.transactions.filter(t => t.id !== id);
+      let deleteIds = [id];
+
+      if (tx.installmentId) {
+        const totalInGroup = state.transactions.filter(t => t.installmentId === tx.installmentId).length;
+        if (totalInGroup > 1) {
+          const choice = confirm(`Esta movimentação faz parte de um parcelamento (${tx.installmentIndex || '?'}/${tx.installmentTotal || totalInGroup}).\n\n- Clique em [OK] para excluir TODAS as ${totalInGroup} parcelas deste parcelamento.\n- Clique em [Cancelar] para excluir APENAS esta parcela.`);
+          if (choice) {
+            deleteIds = state.transactions.filter(t => t.installmentId === tx.installmentId).map(t => t.id);
+          }
+        }
+      } else {
+        if (!confirm('Deseja realmente excluir este lançamento?')) return;
+      }
+
+      const idSet = new Set(deleteIds);
+      state.transactions = state.transactions.filter(t => !idSet.has(t.id));
       saveLocal();
 
       if (state.supabase) {
-        try {
-          await state.supabase.from('transacoes').delete().eq('id', id);
-        } catch(err) {
-          console.warn('[Cloud] Erro ao excluir na nuvem:', err);
+        for (const delId of deleteIds) {
+          try {
+            await state.supabase.from('transacoes').delete().eq('id', delId);
+          } catch(err) {
+            console.warn('[Cloud] Erro ao excluir na nuvem:', err);
+          }
         }
       }
 
-      showToast('Lançamento excluído!', 'success');
+      showToast(deleteIds.length > 1 ? `${deleteIds.length} parcelas excluídas!` : 'Lançamento excluído!', 'success');
       renderUI();
     }
 
