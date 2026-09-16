@@ -775,6 +775,8 @@
     .btn-submit:active { transform: scale(0.98); }
     .app-toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-30px); background: var(--bg-surface-elevated); border: 1px solid var(--border-active); color: var(--text-main); padding: 12px 20px; border-radius: var(--radius-full); font-size: 0.9rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 999; opacity: 0; pointer-events: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
     .app-toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .app-toast.warning { border-color: rgba(245, 158, 11, 0.6); color: #fbbf24; }
+    .app-toast.error { border-color: rgba(244, 63, 94, 0.6); color: var(--color-expense); }
     .donut-chart-container { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; padding: 10px 0; }
     .donut-svg { width: 200px; height: 200px; transform: rotate(-90deg); }
     .donut-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 320px; }
@@ -1147,6 +1149,18 @@
     .budget-action-btn.quick-post:hover {
       background: rgba(56, 189, 248, 0.25);
       border-color: var(--color-balance);
+    }
+    /* Anti-Autofill Masked Secret Input */
+    .masked-secret {
+      -webkit-text-security: disc;
+      text-security: disc;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .masked-secret.revealed {
+      -webkit-text-security: none;
+      text-security: none;
+      letter-spacing: normal;
     }
   </style>
 </head>
@@ -1563,8 +1577,13 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="supabaseKey">Anon Public Key (Supabase)</label>
-        <input type="password" class="form-input" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsIn...">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="supabaseKey" style="margin-bottom: 0;">Anon Public Key (Supabase)</label>
+          <button type="button" id="btnToggleKeyVisibility" onclick="toggleKeyVisibility()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.76rem; display: inline-flex; align-items: center; gap: 4px; padding: 2px 4px; font-weight: 600;">
+            <i data-lucide="eye" style="width: 14px; height: 14px;"></i> <span id="toggleKeyText">Mostrar</span>
+          </button>
+        </div>
+        <input type="text" class="form-input masked-secret" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsIn..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true">
       </div>
 
       <div style="display: flex; gap: 10px; margin-top: 16px;">
@@ -1706,7 +1725,7 @@
         <div class="form-group">
           <label class="form-label" for="importBankSelect">Banco de Origem</label>
           <select class="form-input" id="importBankSelect">
-            <option value="auto">✨ Detectar Automaticamente (OFX)</option>
+            <option value="auto">Detectar Automaticamente (OFX)</option>
             <option value="Nubank">Nubank</option>
             <option value="Mercado Pago">Mercado Pago</option>
             <option value="Inter">Banco Inter</option>
@@ -2914,7 +2933,12 @@
       await syncTransactionToCloud(txObj);
 
       closeTxModal();
-      showToast('Lançamento salvo com sucesso!', 'success');
+      const budgetAlert = (txObj.type === 'Saída') ? getBudgetCategoryAlert(txObj.category, txObj.date) : null;
+      if (budgetAlert) {
+        showToast(budgetAlert, 'warning');
+      } else {
+        showToast('Lançamento salvo com sucesso!', 'success');
+      }
       renderUI();
     }
 
@@ -3038,6 +3062,20 @@
       setSyncStatus(false);
       closeSyncModal();
       showToast('Desconectado da nuvem. Operando em modo local.', 'success');
+    }
+
+    function toggleKeyVisibility() {
+      const input = document.getElementById('supabaseKey');
+      const text = document.getElementById('toggleKeyText');
+      const btn = document.getElementById('btnToggleKeyVisibility');
+      if (!input) return;
+      const isRevealed = input.classList.toggle('revealed');
+      if (text) text.textContent = isRevealed ? 'Ocultar' : 'Mostrar';
+      if (btn) {
+        const iconName = isRevealed ? 'eye-off' : 'eye';
+        btn.innerHTML = `<i data-lucide="${iconName}" style="width: 14px; height: 14px;"></i> <span id="toggleKeyText">${isRevealed ? 'Ocultar' : 'Mostrar'}</span>`;
+        if (window.lucide) window.lucide.createIcons();
+      }
     }
 
     function copySupabaseMigration() {
@@ -3871,9 +3909,39 @@
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toastBox');
       const text = document.getElementById('toastMsg');
+      if (!toast || !text) return;
+      toast.classList.remove('warning', 'error', 'success');
+      toast.classList.add(type);
       text.textContent = msg;
       toast.classList.add('visible');
-      setTimeout(() => toast.classList.remove('visible'), 3200);
+      setTimeout(() => toast.classList.remove('visible'), type === 'warning' ? 4200 : 3200);
+    }
+
+    function getBudgetCategoryAlert(categoryName, txDate) {
+      if (!categoryName || !state.budgetItems || !Array.isArray(state.budgetItems) || state.budgetItems.length === 0) return null;
+      const catNorm = categoryName.trim().toLowerCase();
+      const matchedItems = state.budgetItems.filter(i => 
+        i.type === 'Saída' && 
+        ((i.category && i.category.trim().toLowerCase() === catNorm) || (i.name && i.name.trim().toLowerCase() === catNorm))
+      );
+      if (matchedItems.length === 0) return null;
+
+      const plannedBudget = matchedItems.reduce((acc, i) => acc + (Number(i.amount) || 0), 0);
+      if (plannedBudget <= 0) return null;
+
+      const prefix = txDate ? txDate.substring(0, 7) : `${state.currentYear}-${String(state.currentMonth + 1).padStart(2, '0')}`;
+      const monthTxs = state.transactions.filter(t => t.date && t.date.startsWith(prefix));
+      const totalSpent = monthTxs
+        .filter(t => t.type === 'Saída' && t.category && t.category.trim().toLowerCase() === catNorm)
+        .reduce((acc, t) => acc + (Number(t.amount) || 0), 0);
+
+      const pct = Math.round((totalSpent / plannedBudget) * 100);
+      if (totalSpent > plannedBudget) {
+        return `Teto orçado de ${categoryName} (${formatBRL(plannedBudget)}) ultrapassado em ${pct}%!`;
+      } else if (pct >= 85) {
+        return `Gasto em ${categoryName} atingiu ${pct}% do orçamento mensal (${formatBRL(totalSpent)} de ${formatBRL(plannedBudget)}).`;
+      }
+      return null;
     }
 
     function escapeHTML(str) {
@@ -4021,7 +4089,7 @@
                 </div>
                 <div class="budget-card-tags">
                   <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Salário')}</span>
-                  ${item.recurring ? '<span class="budget-tag-recurring">🔄 Mensal</span>' : ''}
+                  ${item.recurring ? '<span class="budget-tag-recurring"><i data-lucide="repeat" style="width: 12px; height: 12px;"></i> Mensal</span>' : ''}
                   ${item.dueDay ? `<span class="budget-tag-due"><i data-lucide="calendar" style="width: 12px; height: 12px;"></i> Previsão dia ${item.dueDay}</span>` : ''}
                 </div>
                 <div class="budget-card-footer">
@@ -4072,7 +4140,7 @@
                 </div>
                 <div class="budget-card-tags">
                   <span class="category-chip active" style="font-size: 0.72rem; padding: 2px 8px; height: auto;">${escapeHTML(item.category || 'Outros')}</span>
-                  ${item.recurring ? '<span class="budget-tag-recurring">🔄 Mensal</span>' : ''}
+                  ${item.recurring ? '<span class="budget-tag-recurring"><i data-lucide="repeat" style="width: 12px; height: 12px;"></i> Mensal</span>' : ''}
                   ${item.dueDay ? `<span class="budget-tag-due"><i data-lucide="calendar" style="width: 12px; height: 12px;"></i> Vence dia ${item.dueDay}</span>` : ''}
                 </div>
                 <div class="budget-card-footer">
